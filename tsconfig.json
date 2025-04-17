@@ -1,0 +1,10 @@
+{
+    "compilerOptions": {
+      // "outDir": "js",
+      "module": "commonjs", // Tiêu chuẩn trong nodejs để làm việc với các module
+      "removeComments": true,
+      "target": "ES6", // cho phép Typescript biên dich sang thành kiểu es6
+      "esModuleInterop": true, // Dùng được từ khóa import thay cho require
+      "outDir": "dist",
+    }
+}
