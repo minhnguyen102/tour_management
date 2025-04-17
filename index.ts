@@ -1,9 +1,12 @@
 import dotenv from "dotenv"
 import express, { Express, Request, Response } from "express"
+import sequelize from "./config/database"
 const app: Express = express()
 dotenv.config()
 
 const port: number | string = process.env.PORT || 3000
+
+sequelize;
 
 // pug
 app.set('views', './views')
