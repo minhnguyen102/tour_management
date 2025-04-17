@@ -19,17 +19,6 @@ app.set('views', './views')
 app.set('view engine', 'pug')
 
 
-app.get('/tours', async (req: Request, res: Response) => {
-    const tours = await Tour.findAll({
-        raw : true
-    });
-    console.log(tours);
-
-    res.render("client/pages/tours/index.pug",{
-        tours : tours
-    })
-})
-
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 })
