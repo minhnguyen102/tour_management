@@ -1,0 +1,17 @@
+extends ../../layouts/default.pug
+include ../../mixins/box-head.pug
+
+block main
+  .section-products-featured.my-5
+    .container  
+      .row 
+        .col-12 
+          +box-head("Danh sách tour")
+      .row 
+        each category in categories
+          .col-6.mb-3 
+            div(class="card")
+              img(src=category.image, alt=category.title)
+              div(class="card-body")
+                h5(class="card-title") #{category.title}
+                a(href=`/tours/${category.slug}` class="btn btn-primary") Xem chi tiết 
