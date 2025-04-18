@@ -1,11 +1,20 @@
-doctype html 
-html
-    head 
-        title Danh sách tour
+extends ../../layouts/default.pug
+include ../../mixins/box-head.pug
 
-    body
-        h1 Danh sách tour
+block main
+  .section-products-featured.my-5
+    .container  
+      .row 
+        .col-12 
+          +box-head("Danh sách tour")
 
-        ul 
-            each tour in tours 
-                li #{tour.title}
+      .row 
+        .col-12 
+          ul 
+            each tour in tours  
+              li #{tour.title}
+
+    
+      
+
+  

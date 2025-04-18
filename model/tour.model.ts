@@ -1,4 +1,4 @@
-import { Sequelize, DataType, DataTypes } from "sequelize";
+import { DataTypes } from "sequelize";
 import sequelize from "../config/database";
 
 const Tour = sequelize.define("Tour", {
