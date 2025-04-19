@@ -47,3 +47,127 @@
     color: green;
 }
 /* End Box head */
+
+/* tour */
+.tour-detail {
+    padding: 2rem;
+    background-color: #f9f9f9;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  .tour-detail .inner-images {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  
+  .tour-detail .inner-image img {
+    width: 100%;
+    max-width: 200px;
+    height: auto;
+    border-radius: 8px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+  
+  .tour-detail .inner-image img:hover {
+    transform: scale(1.05);
+  }
+  
+  .tour-detail .inner-title {
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+  }
+  
+  .tour-detail .inner-barcode,
+  .tour-detail .inner-time-start,
+  .tour-detail .inner-stock,
+  .tour-detail .inner-price-special,
+  .tour-detail .inner-price,
+  .tour-detail .inner-percent {
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+  }
+  
+  .tour-detail .inner-price-special {
+    color: #d9534f;
+    font-weight: bold;
+    font-size: 1.2rem;
+  }
+  
+  .tour-detail .inner-price {
+    text-decoration: line-through;
+    color: #999;
+  }
+  
+  .tour-detail .inner-percent {
+    color: #28a745;
+    font-weight: bold;
+  }
+  
+  .tour-detail form {
+    margin-top: 1rem;
+  }
+  
+  .tour-detail input[type="number"] {
+    width: 100%;
+    max-width: 120px;
+  }
+  
+  .tour-detail button {
+    margin-top: 0.5rem;
+    width: 100%;
+  }
+  
+  .tour-detail .inner-information {
+    margin-top: 2rem;
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .tour-detail .inner-text {
+    margin-top: 0.5rem;
+    background-color: #fff;
+    padding: 1rem;
+    border-radius: 6px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  }
+
+  
+  .lightbox {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  padding: 1rem;
+}
+
+.lightbox img {
+  max-width: 90%;
+  max-height: 80vh;
+  border-radius: 8px;
+  box-shadow: 0 0 10px #fff;
+}
+
+.lightbox a {
+  display: block;
+  margin-top: 1rem;
+  text-align: center;
+  color: #fff;
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+:target.lightbox {
+  display: flex;
+}
+
+/* end tour */

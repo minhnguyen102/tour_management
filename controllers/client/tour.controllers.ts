@@ -3,7 +3,6 @@ import Tour from "../../model/tour.model";
 import Category from "../../model/category.model";
 import sequelize from "../../config/database";
 import { QueryTypes } from "sequelize";
-import { Json } from "sequelize/types/utils";
 
 
 // [GET] /tours/:slugCategory
@@ -27,7 +26,6 @@ export const index = async (req: Request, res: Response) => {
         { type : QueryTypes.SELECT }
     )
 
-    
     tours.forEach(tour => {
         if(tour["images"]){
             const images = JSON.parse(tour["images"]);
@@ -37,9 +35,28 @@ export const index = async (req: Request, res: Response) => {
         tour["new_price"] =  parseFloat(tour["new_price"])
     })
 
-    console.log(tours);
-
     res.render("client/pages/tours/index.pug",{
         tours: tours
+    })
+}
+
+// [GET] /tours/detail/:slugTour
+export const detail = async (req: Request, res: Response) => {
+    const slugTour = req.params.slugTour;
+    const tour = await Tour.findOne({
+        raw : true,
+        where : {
+            slug : slugTour
+        }
+    })
+    
+    if(tour["images"]){
+        tour["images"] = JSON.parse(tour["images"]);
+    }
+    tour["priceSpecial"] = (1 - tour["discount"] / 100) *  tour["price"]
+
+    res.render("client/pages/tours/detail.pug",{
+        pageTitle : "Chi tiết tour",
+        tour : tour
     })
 }
