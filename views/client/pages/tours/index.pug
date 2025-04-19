@@ -7,14 +7,14 @@ block main
       .row 
         .col-12 
           +box-head("Danh sách tour")
-
       .row 
-        .col-12 
-          ul 
-            each tour in tours  
-              li #{tour.title}
-
-    
-      
-
-  
+        each tour in tours 
+          .col-6.mb-3 
+            div(class="card")
+              img(src=tour.image)
+              div(class="card-body")
+                h5(class="card-title") #{tour.title}
+                b(class="mr-2 mb-2") #{tour.new_price.toLocaleString()}đ
+                del(class="mb-2") #{tour.price.toLocaleString()}đ
+                p(class="font-weight-bold") Giảm #{tour.discount}%
+                a(href=`/tours/detail/${tour.slug}` class="btn btn-primary") Xam chi tiết
