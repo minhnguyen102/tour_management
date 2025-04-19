@@ -6,10 +6,22 @@ block main
     .container.my-3 
       .row 
         .col-6 
-          .inner-images 
-          each image in tour.images
-            .inner-image 
-              img(src=image, alt="")
+          .inner-images
+            div(class="swiper mySwiper2") 
+              div(class="swiper-wrapper")
+                each image in tour.images
+                  div(class="swiper-slide")
+                    .inner-image 
+                      img(src=image, alt="")
+              div(class="swiper-button-next")
+              div(class="swiper-button-prev")
+
+            div(class="swiper mySwiper") 
+              div(class="swiper-wrapper")
+                  each image in tour.images
+                    div(class="swiper-slide")
+                      .inner-image 
+                        img(src=image, alt="")
             
         .col-6 
           .inner-title #{tour.title} 
@@ -18,7 +30,7 @@ block main
             <i class="fa-solid fa-barcode"></i> Mã Tour : #{tour.code}
 
           .inner-time-start 
-            <i class="fa-solid fa-calendar-days"></i> Lịch khởi hành : #{tour.timeStart}
+            <i class="fa-solid fa-calendar-days"></i> Lịch khởi hành : #{moment(tour.timeStart).format("MMMM Do YYYY, h:mm:ss a")};  
 
           .inner-stock
             <i class="fa-solid fa-person-walking-luggage"></i> Còn lại:  #{tour.stock}chỗ
@@ -30,7 +42,7 @@ block main
 
           form(
             form-add-to-cart 
-            tour-id=`tour-id`
+            tour-id=tour.id
           )
             input(
               class="form-control mb-2"
@@ -38,7 +50,7 @@ block main
               name="quantity"
               value="1"
               min="1"
-              max="10"
+              max=tour.stock
             )
 
             button(
@@ -50,12 +62,12 @@ block main
         .col-12 
           .inner-information Thông tin tour
           .inner-text 
-            | #{tour.information}
+            | !{tour.information}
 
         .col-12 
           .inner-information Lịch trình tour
           .inner-text 
-            | #{tour.schedule}
+            | !{tour.schedule}
 
 
           

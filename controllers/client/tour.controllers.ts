@@ -46,7 +46,9 @@ export const detail = async (req: Request, res: Response) => {
     const tour = await Tour.findOne({
         raw : true,
         where : {
-            slug : slugTour
+            slug : slugTour,
+            deleted : false,
+            status : "active"
         }
     })
     

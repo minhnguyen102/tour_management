@@ -3,6 +3,7 @@ import express, { Express } from "express"
 const app: Express = express()
 dotenv.config()
 import RouterClient from "./routes/client/index.router"
+import moment from "moment"
 
 const port: number | string = process.env.PORT || 3000
 
@@ -11,6 +12,9 @@ app.use(express.static('public'))
 
 // routerClient
 RouterClient(app);
+
+// App local varialble
+app.locals.moment = moment
 
 // pug
 app.set('views', './views')
