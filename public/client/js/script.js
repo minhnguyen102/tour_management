@@ -17,6 +17,25 @@ var swiper2 = new Swiper(".mySwiper2", {
 });
 // End Swipper slide tour detail
 
+// alert-add-cart-success
+const alertAddCartSuccess = () => {
+    const alert = document.querySelector("[alert-add-cart-success]");
+    
+    if(alert){
+        alert.classList.remove("alert-hidden")
+        setTimeout(() => {
+            alert.classList.add("alert-hidden")
+        }, 5000)
+
+
+        const closeAlert = alert.querySelector("[close-alert]");
+        closeAlert.addEventListener("click", () => {
+            alert.classList.add("alert-hidden")
+        })
+    }
+}
+// End alert-add-cart-success
+
 // Add tour to cart
 const cart = localStorage.getItem("cart");
 if(!cart){
@@ -42,6 +61,7 @@ if(formAddToCart){
                 cart[indexExitTour].quantity += quantity
             }
             localStorage.setItem("cart", JSON.stringify(cart))
+            alertAddCartSuccess();
         }
     })
 }
