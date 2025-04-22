@@ -36,6 +36,18 @@ const alertAddCartSuccess = () => {
 }
 // End alert-add-cart-success
 
+// quantity-in-cart
+const quantityInCart = () => {
+    const quantityInCart = document.querySelector("[quantity-in-cart]")
+    const cart = JSON.parse(localStorage.getItem("cart"));
+    if(cart){
+        const total = cart.reduce((total, item) => total + item.quantity, 0)
+        quantityInCart.innerHTML = total
+    }    
+}
+quantityInCart();
+// End quantity-in-cart
+
 // Add tour to cart
 const cart = localStorage.getItem("cart");
 if(!cart){
@@ -62,6 +74,7 @@ if(formAddToCart){
             }
             localStorage.setItem("cart", JSON.stringify(cart))
             alertAddCartSuccess();
+            quantityInCart();
         }
     })
 }
