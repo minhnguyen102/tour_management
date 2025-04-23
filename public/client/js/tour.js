@@ -91,7 +91,6 @@ const updateQuantityTour = () => {
                 const newQuantity = parseInt(input.value);
                 const tour = cart.find(item => item.tourId == idItem);
                 tour.quantity = newQuantity   
-                console.log(cart)        
                 localStorage.setItem("cart", JSON.stringify(cart));
                 drawListTour()
             })
@@ -99,7 +98,39 @@ const updateQuantityTour = () => {
     }
 }
 // Hết Cập nhật số lượng đơn hàng
-
-
 drawListTour();
+
+// Lấy thông tin đơn hàng gửi lên sever
+const formOrder = document.querySelector("[form-order]")
+if(formOrder){
+    formOrder.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const fullName = e.target.elements.fullName.value;
+        const phone = e.target.elements.phone.value;
+        const note = e.target.elements.note.value;
+        const tour = JSON.parse(localStorage.getItem("cart"))
+
+        const data = {
+            inforUser: {
+                fullName : fullName,
+                phone : phone,
+                note : note
+            }, 
+            tour : tour
+        }
+
+        fetch("/order", {
+            method : "POST",
+            body : JSON.stringify(data),
+            headers : {
+                "Content-Type" : "application/json"
+            }
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+            })
+    })
+}
+// Hết Lấy thông tin đơn hàng gửi lên sever
 
