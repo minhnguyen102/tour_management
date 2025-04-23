@@ -54,6 +54,7 @@ const drawListTour = () => {
             spanTotalPrice.innerHTML = totalPrice.toLocaleString()
     
             deleteTour();
+            updateQuantityTour();
         })
 }
 // End Call API bên sever 
@@ -77,6 +78,27 @@ const deleteTour = () => {
     }
 }
 // Hết Xóa tour trong giỏ hàng
+
+// Cập nhật số lượng đơn hàng
+const updateQuantityTour = () => {
+    const inputsUpdate = document.querySelectorAll("[list-tour] input[item-id]");
+    if(inputsUpdate){
+        // console.log(inputsUpdate)
+        inputsUpdate.forEach(input => {
+            input.addEventListener("change", () =>{
+                const cart = JSON.parse(localStorage.getItem("cart"));
+                const idItem = input.getAttribute("item-id");
+                const newQuantity = parseInt(input.value);
+                const tour = cart.find(item => item.tourId == idItem);
+                tour.quantity = newQuantity   
+                console.log(cart)        
+                localStorage.setItem("cart", JSON.stringify(cart));
+                drawListTour()
+            })
+        })
+    }
+}
+// Hết Cập nhật số lượng đơn hàng
 
 
 drawListTour();
