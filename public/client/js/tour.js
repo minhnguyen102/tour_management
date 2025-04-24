@@ -128,7 +128,12 @@ if(formOrder){
         })
             .then(res => res.json())
             .then(data => {
-                console.log(data);
+                if(data.code === 200){
+                    localStorage.removeItem("cart");
+                    window.location.href = `/order/success/${data.orderCode}`
+                }else{
+                    window.alert("Đặt hàng thất bại")
+                }
             })
     })
 }
