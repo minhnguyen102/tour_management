@@ -1,6 +1,7 @@
 import dotenv from "dotenv"
 import express, { Express } from "express"
 import bodyParser from "body-parser"
+import methodOverride from "method-override"
 const app: Express = express()
 dotenv.config()
 import RouterClient from "./routes/client/index.router"
@@ -12,6 +13,9 @@ const port: number | string = process.env.PORT || 3000
 
 // static file
 app.use(express.static('public'))
+
+// methodOverride : ghi đè 
+app.use(methodOverride('_method'))
 
 // body-parser
 app.use(bodyParser.json())

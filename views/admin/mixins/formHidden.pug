@@ -1,0 +1,36 @@
+mixin formHidden(id, path)
+    form(
+        action=""
+        method="POST"
+        id=id
+        data-path=path
+        class="d-none"
+    ) 
+
+mixin formHiddenPermission(id, path)
+    form(
+        action=path
+        method="POST"
+        id=id
+        class="d-none"
+    )
+        div(clas="form-group")
+            input(
+                type="text"
+                class="form-control"
+                name="permissions"
+            )
+
+mixin formHiddenAccept(id, path)
+    form(
+        action=path
+        method="POST"
+        id=id
+        class="d-none"
+    )
+        div(clas="form-group")
+            input(
+                type="text"
+                class="form-control"
+                name="accept"
+            )

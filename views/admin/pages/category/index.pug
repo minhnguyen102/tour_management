@@ -2,7 +2,7 @@ extends ../../layouts/default.pug
 //- include ../../mixins/pagination.pug
 //- include ../../mixins/filterStatus.pug
 //- include ../../mixins/search.pug
-//- include ../../mixins/formHidden.pug
+include ../../mixins/formHidden.pug
 //- include ../../mixins/alert.pug
 //- include ../../mixins/table-tree.pug
 
@@ -89,6 +89,6 @@ block main
                                     ) Chi tiết
 
     //- +pagination(objectPagination)
-    //- +formHidden("form-change-status", `${prefixAdmin}/tours-category/change-status`)
+    +formHidden("form-change-status", `${prefixAdmin}/tours-category/change-status`)
     //- +formHidden("form-button-delete", `${prefixAdmin}/tours-category/delete`)
     script(src="/admin/js/product.js") 
