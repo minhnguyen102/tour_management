@@ -1,0 +1,94 @@
+extends ../../layouts/default.pug
+//- include ../../mixins/pagination.pug
+//- include ../../mixins/filterStatus.pug
+//- include ../../mixins/search.pug
+//- include ../../mixins/formHidden.pug
+//- include ../../mixins/alert.pug
+//- include ../../mixins/table-tree.pug
+
+block main
+    //- +alert(5000)
+    h1 Trang danh mục sản phẩm 
+
+    .card.mb-3 
+        .card-header Bộ lọc và tìm kiếm 
+        .card-body 
+            .row
+                .col-6
+                    //- +filterStatus(filterStatus)
+                .col-6
+                    //- +search(keyword)
+
+    .card.mb-3 
+        .card-header Danh sách danh mục 
+            .card-body
+                .row 
+                    .col-10
+                    .col-2
+                        a(
+                            href=`${prefixAdmin}/tours-category/create`
+                            class="btn btn-outline-success"
+                        ) + Thêm mới 
+
+    
+                table(
+                    class="table table-hover table-sm"
+                    checkbox-multi
+                    ) 
+                
+                    thead 
+                        tr
+                            th
+                                input(type="checkbox" name="checkall")
+                            th STT
+                            th Hình ảnh
+                            th Tiêu đề
+                            th Trạng thái
+                            th Hành động 
+                    tbody 
+                        //- +table-tree(records) // tối ưu cho sau này
+                        each item, index in categories
+                            tr 
+                                td  
+                                    input(type="checkbox" name="id" value = item.id)
+                                td #{index + 1}
+                                td 
+                                    img(src=item.image, alt="",width="100px", height="auto")
+                                td #{item.title}
+                                td
+                                    if(item.status == "active")
+                                        a(
+                                            href="javascript:;" 
+                                            data-status = item.status 
+                                            data-id = item.id 
+                                            button-change-status
+                                            class="badge badge-success"
+                                        ) Hoạt động
+                                    else 
+                                        a(
+                                            href="javascript:;"
+                                            data-status = item.status 
+                                            data-id = item.id 
+                                            button-change-status  
+                                            class="badge badge-danger"
+                                        ) Dừng hoạt động
+                                    
+                                td
+                                    a(
+                                        href=`${prefixAdmin}/tours/edit/${item.id}`
+                                        class="btn btn-warning btn-sm"
+                                    ) Sửa
+                                    button(
+                                        id-item = item.id
+                                        button-delete
+                                        class="btn btn-danger btn-sm ml-1"
+                                    ) Xóa
+                                    a(
+                                        href=`${prefixAdmin}/tours/detail/${item.id}`
+                                        class="btn btn-info btn-sm ml-1"
+                                    ) Chi tiết
+
+    //- +pagination(objectPagination)
+    //- +formHidden("form-change-status", `${prefixAdmin}/tours-category/change-status`)
+    //- +formHidden("form-button-delete", `${prefixAdmin}/tours-category/delete`)
+    script(src="/admin/js/product.js") 

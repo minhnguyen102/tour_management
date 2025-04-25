@@ -5,6 +5,8 @@ const app: Express = express()
 dotenv.config()
 import RouterClient from "./routes/client/index.router"
 import moment from "moment"
+import RouterAdmin from "./routes/admin/index.router"
+import { systemConfig } from "./config/system"
 
 const port: number | string = process.env.PORT || 3000
 
@@ -16,9 +18,12 @@ app.use(bodyParser.json())
 
 // routerClient
 RouterClient(app);
+RouterAdmin(app)
 
 // App local varialble
 app.locals.moment = moment
+app.locals.prefixAdmin = systemConfig.prefixAdmin
+
 
 // pug
 app.set('views', './views')
