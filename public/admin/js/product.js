@@ -17,3 +17,22 @@ if(buttonsChangeStatus.length > 0){
     })
 }
 // End button-change-status
+
+// Filter-Status
+const buttonsStatus = document.querySelectorAll("[btn-status]")
+if(buttonsStatus.length > 0){
+    const url = new URL(window.location.href)
+
+    buttonsStatus.forEach(button => {
+        button.addEventListener("click", () => {
+            const status = button.getAttribute("btn-status");
+            if(status){
+                url.searchParams.set("status", status)
+            }else{
+                url.searchParams.delete("status")
+            }
+            window.location.href = url.href
+        })
+    })
+}
+// End Filter-Status
