@@ -24,18 +24,6 @@ block main
                 required
                 value=data.title
             )
-        //- div(class="form-group")
-        //-     label(for="title") Danh mục cha
-        //-     select(
-        //-         type="text"
-        //-         class="form-control"
-        //-         id="parent_id"
-        //-         name="parent_id"
-        //-         value=data.parent_id
-        //-     )
-        //-         option(value="") -- Chọn danh mục cha --
-        //-         if(records)
-        //-             +select-tree(records, 1, data.parent_id)
         div(class="form-group")
             label(for="desc") Mô tả
             textarea(

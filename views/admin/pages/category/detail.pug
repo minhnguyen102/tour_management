@@ -1,0 +1,30 @@
+extends ../../layouts/default.pug
+
+block main
+    if(data.title)
+        h1(class="mb-4") #{data.title}
+    
+    if (data.image)
+        div(class="mb-4")
+            img(
+                src=data.image 
+                style="width: 100px"
+            )
+    
+    if(data.status)
+        div(class="mb-4")
+            span Trạng thái: 
+            if (data.status === "active")
+                span(class ="badge badge-success") Hoạt động
+            else 
+                span(class ="badge badge-danger") Dừng hoạt động
+                
+    if(data.description)
+        div(class="mb-4") !{data.description}
+    a(
+        href=`${prefixAdmin}/tours-category/edit/${data.id}`
+        class="btn btn-warning"
+    ) Chỉnh sửa
+
+
+    script(src="/admin/js/datas.js") 

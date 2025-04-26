@@ -6,6 +6,8 @@ router.get('/', controllers.index)
 
 router.get('/edit/:id', controllers.edit)
 
+router.get('/detail/:id', controllers.detail)
+
 router.patch("/change-status/:id/:status", controllers.changeStatus)
 
 export const tourCategoryRouter = router

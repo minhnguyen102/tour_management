@@ -90,3 +90,20 @@ export const edit = async (req: Request, res: Response) => {
         data : data
     })
 }
+
+// [GET] //admin/tours-category/edit/:id
+export const detail = async (req: Request, res: Response) => {
+    const id = req.params.id;
+    const data = await Category.findOne({
+        raw : true,
+        where : {
+            id : id,
+            deleted : false,
+            status : "active"
+        }
+    })
+
+    res.render("admin/pages/category/detail.pug",{
+        data : data
+    })
+}
