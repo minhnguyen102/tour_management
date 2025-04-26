@@ -1,13 +1,13 @@
 extends ../../layouts/default.pug
-//- include ../../mixins/pagination.pug
+include ../../mixins/pagination.pug
 include ../../mixins/filterStatus.pug
 //- include ../../mixins/search.pug
 include ../../mixins/formHidden.pug
-//- include ../../mixins/alert.pug
+include ../../mixins/alert.pug
 //- include ../../mixins/table-tree.pug
 
 block main
-    //- +alert(5000)
+    +alert-success(5000)
     h1 Trang danh mục sản phẩm 
 
     .card.mb-3 
@@ -88,7 +88,7 @@ block main
                                         class="btn btn-info btn-sm ml-1"
                                     ) Chi tiết
 
-    //- +pagination(objectPagination)
+    +pagination(objectPagination)
     +formHidden("form-change-status", `${prefixAdmin}/tours-category/change-status`)
     //- +formHidden("form-button-delete", `${prefixAdmin}/tours-category/delete`)
     script(src="/admin/js/product.js") 

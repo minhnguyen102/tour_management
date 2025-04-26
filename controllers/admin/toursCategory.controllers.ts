@@ -1,30 +1,51 @@
 import { Request, Response } from "express"
 import Category from "../../model/category.model"
 import { filterStatusHelper } from "../../helpers/filterStatus"
+import { PaginationHelper } from "../../helpers/pagination"
 
 // [GET] //admin/tours-category
 export const index = async (req: Request, res: Response) => {
-
     const where = {
         deleted : false
     }
 
     // filter-Status
     if(req.query.status){
-        console.log(req.query.status)
         where["status"] = req.query.status;
     }
     const filterStatus = filterStatusHelper(req.query)
     // End filter-Status
 
+    // Pagination
+    const totalCategory = await Category.count({
+        where : {
+            status : "active",
+            deleted : false
+        }
+    })
+    const objectPagination = PaginationHelper(
+        {
+            limitItem : 1,
+            currentPage : 1
+        },
+        req.query,
+        totalCategory
+    )
+    // End Pagination
+
+    
+
     const categories = await Category.findAll({
         raw : true,
+        limit : objectPagination["limitItem"],
+        offset : objectPagination["skip"],
         where : where
     })
 
     res.render("admin/pages/category/index.pug",{
         categories : categories,
-        filterStatus : filterStatus
+        filterStatus : filterStatus,
+        objectPagination : objectPagination
     })
 }
 
@@ -40,6 +61,6 @@ export const changeStatus = async (req: Request, res: Response) => {
             id : idItem
         }
     })
-
+    // req.flash("success", "Thay đổi trạng thái sản phẩm thành công")
     res.redirect('/admin/tours-category');
 }

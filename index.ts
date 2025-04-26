@@ -2,6 +2,9 @@ import dotenv from "dotenv"
 import express, { Express } from "express"
 import bodyParser from "body-parser"
 import methodOverride from "method-override"
+import flash from "express-flash"
+import session from "express-session"
+import cookieParser from "cookie-parser"
 const app: Express = express()
 dotenv.config()
 import RouterClient from "./routes/client/index.router"
@@ -16,6 +19,11 @@ app.use(express.static('public'))
 
 // methodOverride : ghi đè 
 app.use(methodOverride('_method'))
+
+// flash
+app.use(cookieParser('keyboard cat'));
+app.use(session({ cookie: { maxAge: 60000 }}));
+app.use(flash());
 
 // body-parser
 app.use(bodyParser.json())
