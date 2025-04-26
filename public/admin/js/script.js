@@ -1,5 +1,5 @@
-// Pagination
 var url = new URL(window.location.href)
+// Pagination
 const buttonsPagination = document.querySelectorAll("[button-pagination]");
 if(buttonsPagination.length > 0){
     buttonsPagination.forEach(button => {
@@ -11,3 +11,19 @@ if(buttonsPagination.length > 0){
     })
 }
 // End Pagination
+
+// Search
+const formSearch = document.querySelector("#form-search");
+if(formSearch){
+    formSearch.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const keyword = e.target.elements.keyword.value;
+        if(keyword){
+            url.searchParams.set("keyword", keyword);
+        }else{
+            url.searchParams.delete("keyword");
+        }
+        window.location.href = url.href
+    })
+}
+// End Search

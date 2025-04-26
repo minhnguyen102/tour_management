@@ -2,6 +2,7 @@ import { Request, Response } from "express"
 import Category from "../../model/category.model"
 import { filterStatusHelper } from "../../helpers/filterStatus"
 import { PaginationHelper } from "../../helpers/pagination"
+import { SearchHelper } from "../../helpers/search"
 
 // [GET] //admin/tours-category
 export const index = async (req: Request, res: Response) => {
@@ -16,6 +17,14 @@ export const index = async (req: Request, res: Response) => {
     const filterStatus = filterStatusHelper(req.query)
     // End filter-Status
 
+    // Search
+    const objectSearch = SearchHelper(req.query);
+    if(objectSearch["regex"]){
+        where["title"] = req.query.keyword;
+    }
+    
+    // End Search
+
     // Pagination
     const totalCategory = await Category.count({
         where : {
@@ -25,7 +34,7 @@ export const index = async (req: Request, res: Response) => {
     })
     const objectPagination = PaginationHelper(
         {
-            limitItem : 1,
+            limitItem : 5,
             currentPage : 1
         },
         req.query,
@@ -45,7 +54,8 @@ export const index = async (req: Request, res: Response) => {
     res.render("admin/pages/category/index.pug",{
         categories : categories,
         filterStatus : filterStatus,
-        objectPagination : objectPagination
+        objectPagination : objectPagination,
+        keyword : objectSearch.keyword
     })
 }
 
