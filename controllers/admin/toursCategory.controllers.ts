@@ -42,7 +42,6 @@ export const index = async (req: Request, res: Response) => {
     )
     // End Pagination
 
-    
 
     const categories = await Category.findAll({
         raw : true,
@@ -73,4 +72,21 @@ export const changeStatus = async (req: Request, res: Response) => {
     })
     // req.flash("success", "Thay đổi trạng thái sản phẩm thành công")
     res.redirect('/admin/tours-category');
+}
+
+// [GET] //admin/tours-category/edit/:id
+export const edit = async (req: Request, res: Response) => {
+    const id = req.params.id;
+    const data = await Category.findOne({
+        raw : true,
+        where : {
+            id : id,
+            deleted : false,
+            status : "active"
+        }
+    })
+    
+    res.render("admin/pages/category/edit.pug",{
+        data : data
+    })
 }
