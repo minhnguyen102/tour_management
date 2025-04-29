@@ -2,7 +2,7 @@ extends ../../layouts/default.pug
 include ../../mixins/filterStatus.pug
 include ../../mixins/search.pug
 include ../../mixins/pagination.pug
-//- include ../../mixins/changeMulti.pug
+include ../../mixins/changeMulti.pug
 include ../../mixins/formHidden.pug
 //- include ../../mixins/alert.pug
 include ../../mixins/sort.pug
@@ -33,7 +33,7 @@ block main
         .card-body 
             .row 
                 .col-10
-                    //- +changeMulti(`${prefixAdmin}/products/change-multi?_method=PATCH`)
+                    +changeMulti(`${prefixAdmin}/tours/change-multi?_method=PATCH`)
                 .col-2
                     a(
                         href=`${prefixAdmin}/products/create`

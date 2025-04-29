@@ -6,4 +6,6 @@ router.get('/', controllers.index)
 
 router.patch('/change-status/:id/:status', controllers.changeStatus)
 
+router.patch('/change-multi/', controllers.changeMulti)
+
 export const tourRouter = router

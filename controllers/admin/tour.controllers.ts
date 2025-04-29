@@ -3,6 +3,7 @@ import Tour from "../../model/tour.model"
 import { filterStatusHelper } from "../../helpers/filterStatus"
 import { SearchHelper } from "../../helpers/search"
 import { PaginationHelper } from "../../helpers/pagination"
+import { Op } from "sequelize"
 
 // [GET] //admin/tour
 export const index = async (req: Request, res: Response) => {
@@ -88,4 +89,37 @@ export const changeStatus = async (req: Request, res: Response) => {
     })
     // req.flash("success", "Thay đổi trạng thái sản phẩm thành công")
     res.redirect('/admin/tours');
+}
+
+// [PATCH] /admin/tours/change-multi
+export const changeMulti = async (req: Request, res: Response) => {
+    // console.log(req.method)
+    const typeChange = req.body.type
+    const ids = req.body.ids.split("-")
+    switch (typeChange) {
+        case "active":
+            await Tour.update({
+                status : "active"
+            },{where :{
+                id: {[Op.in] : ids}
+            }})
+            break;
+        case "inactive":
+            await Tour.update({
+                status : "inactive"
+            },{where :{
+                id: {[Op.in] : ids}
+            }})
+            break;
+        case "delete":
+            console.log("Logic delete nhiều sản phẩm")
+            break;
+    
+        default:
+            break;
+    }
+
+    // req.flash("success", "Thay đổi trạng thái sản phẩm thành công")
+    res.redirect('/admin/tours');
+    // res.redirect('back'); phải tìm cách fix theo hướng này
 }

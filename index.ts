@@ -26,6 +26,7 @@ app.use(session({ cookie: { maxAge: 60000 }}));
 app.use(flash());
 
 // body-parser
+app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 // routerClient
