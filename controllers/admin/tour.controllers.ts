@@ -88,7 +88,9 @@ export const changeStatus = async (req: Request, res: Response) => {
         }
     })
     // req.flash("success", "Thay đổi trạng thái sản phẩm thành công")
+    req.flash("success", "Thay đổi trạng thái sản phẩm thành công")
     res.redirect('/admin/tours');
+    // res.redirect("back")
 }
 
 // [PATCH] /admin/tours/change-multi
@@ -103,6 +105,7 @@ export const changeMulti = async (req: Request, res: Response) => {
             },{where :{
                 id: {[Op.in] : ids}
             }})
+            req.flash("success", `Cập nhật thành công trạng thái ${ids.length} sản phẩm`);
             break;
         case "inactive":
             await Tour.update({
@@ -110,9 +113,11 @@ export const changeMulti = async (req: Request, res: Response) => {
             },{where :{
                 id: {[Op.in] : ids}
             }})
+            req.flash("success", `Cập nhật thành công trạng thái ${ids.length} sản phẩm`);
             break;
         case "delete-all":
             console.log("Logic delete nhiều sản phẩm")
+            req.flash("success", `Xóa thành công ${ids.length} sản phẩm`);
             break;
     
         default:

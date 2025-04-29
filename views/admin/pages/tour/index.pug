@@ -4,12 +4,12 @@ include ../../mixins/search.pug
 include ../../mixins/pagination.pug
 include ../../mixins/changeMulti.pug
 include ../../mixins/formHidden.pug
-//- include ../../mixins/alert.pug
+include ../../mixins/alert.pug
 include ../../mixins/sort.pug
 //- include ../../mixins/moment.pug
 
 block main 
-    //- +alert(5000)
+    +alert-success(5000)
     h1 Trang danh sách tour
 
     .card.mb-3 

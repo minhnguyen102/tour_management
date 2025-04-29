@@ -22,7 +22,7 @@ app.use(express.static('public'))
 app.use(methodOverride('_method'))
 
 // flash
-app.use(cookieParser('keyboard cat'));
+app.use(cookieParser('NKMTTL'));
 app.use(session({ cookie: { maxAge: 60000 }}));
 app.use(flash());
 
