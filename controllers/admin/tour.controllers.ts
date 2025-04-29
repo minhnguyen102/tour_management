@@ -60,4 +60,18 @@ export const index = async (req: Request, res: Response) => {
     })
 }
 
-
+// [PATCH] /admin/tours/change-status/1/inactive
+export const changeStatus = async (req: Request, res: Response) => {
+    // console.log(req.method)
+    const idItem = req.params.id;
+    const newStatus = req.params.status;
+    await Tour.update({
+        status : newStatus
+    },{
+        where : {
+            id : idItem
+        }
+    })
+    // req.flash("success", "Thay đổi trạng thái sản phẩm thành công")
+    res.redirect('/admin/tours');
+}

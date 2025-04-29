@@ -4,4 +4,6 @@ import * as controllers from "../../controllers/admin/tour.controllers"
 
 router.get('/', controllers.index)
 
+router.patch('/change-status/:id/:status', controllers.changeStatus)
+
 export const tourRouter = router
