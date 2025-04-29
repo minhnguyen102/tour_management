@@ -87,8 +87,8 @@ export const changeStatus = async (req: Request, res: Response) => {
             id : idItem
         }
     })
-    // req.flash("success", "Thay đổi trạng thái sản phẩm thành công")
-    req.flash("success", "Thay đổi trạng thái sản phẩm thành công")
+    // req.flash("success", "Thay đổi trạng thái tour thành công")
+    req.flash("success", "Thay đổi trạng thái tour thành công")
     res.redirect('/admin/tours');
     // res.redirect("back")
 }
@@ -105,7 +105,7 @@ export const changeMulti = async (req: Request, res: Response) => {
             },{where :{
                 id: {[Op.in] : ids}
             }})
-            req.flash("success", `Cập nhật thành công trạng thái ${ids.length} sản phẩm`);
+            req.flash("success", `Cập nhật thành công trạng thái ${ids.length} tour`);
             break;
         case "inactive":
             await Tour.update({
@@ -113,18 +113,21 @@ export const changeMulti = async (req: Request, res: Response) => {
             },{where :{
                 id: {[Op.in] : ids}
             }})
-            req.flash("success", `Cập nhật thành công trạng thái ${ids.length} sản phẩm`);
+            req.flash("success", `Cập nhật thành công trạng thái ${ids.length} tour`);
             break;
         case "delete-all":
-            console.log("Logic delete nhiều sản phẩm")
-            req.flash("success", `Xóa thành công ${ids.length} sản phẩm`);
+            await Tour.update({
+                deleted : true
+            },{where :{
+                id: {[Op.in] : ids}
+            }})
+            req.flash("success", `Xóa thành công ${ids.length} tour`);
             break;
     
         default:
             break;
     }
 
-    // req.flash("success", "Thay đổi trạng thái sản phẩm thành công")
     res.redirect('/admin/tours');
     // res.redirect('back'); phải tìm cách fix theo hướng này
 }
