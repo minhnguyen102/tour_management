@@ -28,7 +28,6 @@ export const index = async (req: Request, res: Response) => {
     // Pagination
     const totalCategory = await Category.count({
         where : {
-            status : "active",
             deleted : false
         }
     })
