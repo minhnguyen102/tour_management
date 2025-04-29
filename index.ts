@@ -6,6 +6,7 @@ import flash from "express-flash"
 import session from "express-session"
 import cookieParser from "cookie-parser"
 const app: Express = express()
+var path = require("path")
 dotenv.config()
 import RouterClient from "./routes/client/index.router"
 import moment from "moment"
@@ -37,6 +38,9 @@ RouterAdmin(app)
 app.locals.moment = moment
 app.locals.prefixAdmin = systemConfig.prefixAdmin
 
+// tiny MCE
+app.use('/tinymce', express.static(path.join(__dirname, 'node_modules', 'tinymce')));
+// End tiny MCE
 
 // pug
 app.set('views', './views')

@@ -111,7 +111,7 @@ export const changeMulti = async (req: Request, res: Response) => {
                 id: {[Op.in] : ids}
             }})
             break;
-        case "delete":
+        case "delete-all":
             console.log("Logic delete nhiều sản phẩm")
             break;
     
@@ -122,4 +122,11 @@ export const changeMulti = async (req: Request, res: Response) => {
     // req.flash("success", "Thay đổi trạng thái sản phẩm thành công")
     res.redirect('/admin/tours');
     // res.redirect('back'); phải tìm cách fix theo hướng này
+}
+
+// [GET] /admin/tours/create
+export const create = async (req: Request, res: Response) => {
+    res.render("admin/pages/tour/create.pug",{
+
+    })
 }
