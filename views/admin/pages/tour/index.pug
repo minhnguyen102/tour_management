@@ -99,7 +99,7 @@ block main
 
                             td
                                 a(
-                                    href=`${prefixAdmin}/products/edit/${item.id}`
+                                    href=`${prefixAdmin}/tours/edit/${item.id}`
                                     class="btn btn-warning btn-sm"
                                 ) Sửa
                                 button(
@@ -108,11 +108,11 @@ block main
                                     class="btn btn-danger btn-sm ml-1"
                                 ) Xóa
                                 a(
-                                    href=`${prefixAdmin}/products/detail/${item.id}`
+                                    href=`${prefixAdmin}/tours/detail/${item.id}`
                                     class="btn btn-info btn-sm ml-1"
                                 ) Chi tiết
     +pagination(objectPagination)
 
     +formHidden("form-change-status", `${prefixAdmin}/tours/change-status`)
-    //- +formHidden("form-button-delete", `${prefixAdmin}/products/delete`)
+    +formHidden("form-button-delete", `${prefixAdmin}/tours/delete`)
     script(src="/admin/js/product.js") 

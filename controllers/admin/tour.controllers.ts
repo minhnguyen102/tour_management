@@ -135,3 +135,17 @@ export const create = async (req: Request, res: Response) => {
 
     })
 }
+
+// [DELETE] /admin/tours/delete/:id
+export const deleted = async (req: Request, res: Response) => {
+    const idItem = req.params.id;
+    await Tour.update({
+        deleted : true
+    },{
+        where : {
+            id : idItem
+        }
+    })
+    req.flash("success", "Xóa tour thành công")
+    res.redirect('/admin/tours');
+}

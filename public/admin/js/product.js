@@ -38,3 +38,21 @@ if(buttonsStatus.length > 0){
     })
 }
 // End Filter-Status
+
+// Delete Tour
+const buttonsDelete = document.querySelectorAll("[button-delete]")
+if(buttonsDelete.length > 0){
+    const formDelete = document.querySelector("#form-button-delete")
+    if(formDelete){
+        buttonsDelete.forEach(button => {
+            button.addEventListener("click", () => {
+                const idItem = button.getAttribute("id-item");
+                const dataPath = formDelete.getAttribute("data-path");
+                const newPath = `${dataPath}/${idItem}?_method=DELETE`;
+                formDelete.action = newPath;
+                formDelete.submit();
+            })
+        })
+    }
+}
+// End Delete Tour

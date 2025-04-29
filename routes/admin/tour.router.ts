@@ -10,4 +10,6 @@ router.patch('/change-multi/', controllers.changeMulti)
 
 router.get('/create/', controllers.create)
 
+router.delete('/delete/:id', controllers.deleted)
+
 export const tourRouter = router
