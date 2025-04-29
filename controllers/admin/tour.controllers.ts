@@ -41,10 +41,24 @@ export const index = async (req: Request, res: Response) => {
     )
     // End Pagination
 
+    // Sort
+    let order=[];
+    const sortKey = req.query.sortKey
+    const sortValue = req.query.sortValue;
+    if(sortKey && sortValue){
+        const objectOrder = [sortKey, sortValue];
+        order.push(objectOrder);
+    }else{
+        order.push(["price", "asc"])
+    }
+    
+    // End Sort
+
     const tours = await Tour.findAll({
         raw : true,
         limit : objectPagination["limitItem"],
         offset : objectPagination["skip"],
+        order : order,
         where : where
     })
     tours.forEach(tour => {

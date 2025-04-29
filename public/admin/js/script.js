@@ -27,3 +27,43 @@ if(formSearch){
     })
 }
 // End Search
+
+// Sort
+const sort = document.querySelector("[sort]");
+if(sort){
+    const sortSelect = sort.querySelector("[sort-select]");
+    const buttonClear = sort.querySelector("[sort-clear]");
+    const url = new URL(window.location.href);
+
+    sort.addEventListener("change", (e) => {
+        const value = e.target.value;
+        const keys = value.split("-");
+        let [sortKey, sortValue] = keys;
+        // console.log(sortKey)
+        // console.log(sortValue)
+        if(sortKey && sortValue){
+            url.searchParams.set("sortKey", sortKey);
+            url.searchParams.set("sortValue", sortValue);
+            window.location.href = url.href
+        }
+    })
+
+    buttonClear.addEventListener("click", () => {
+        const sortKey = url.searchParams.get("sortKey");
+        const sortValue = url.searchParams.get("sortValue");
+        if(sortKey && sortValue){
+            url.searchParams.delete("sortKey")
+            url.searchParams.delete("sorValue")
+            window.location.href = url.href;
+        }
+    })
+
+    // selected
+    const sortKey = url.searchParams.get("sortKey")
+    const sortValue = url.searchParams.get("sortValue")
+    const value = sortKey + "-" + sortValue
+    const optionSelected = sortSelect.querySelector(`option[value = ${value}]`)
+    console.log(optionSelected)
+    optionSelected.selected = true;
+}
+// End Sort
