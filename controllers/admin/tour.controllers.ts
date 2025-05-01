@@ -4,6 +4,8 @@ import { filterStatusHelper } from "../../helpers/filterStatus"
 import { SearchHelper } from "../../helpers/search"
 import { PaginationHelper } from "../../helpers/pagination"
 import { Op } from "sequelize"
+import Category from "../../model/category.model"
+import { generateTourCode } from "../../helpers/generate"
 
 // [GET] //admin/tour
 export const index = async (req: Request, res: Response) => {
@@ -134,9 +136,40 @@ export const changeMulti = async (req: Request, res: Response) => {
 
 // [GET] /admin/tours/create
 export const create = async (req: Request, res: Response) => {
-    res.render("admin/pages/tour/create.pug",{
-
+    const categories = await Category.findAll({
+        raw : true,
+        where : {
+            status : "active",
+            deleted : false
+        }
     })
+    res.render("admin/pages/tour/create.pug",{
+        categories : categories
+    })
+}
+
+// [POST] /admin/tours/create
+export const createPost = async (req: Request, res: Response) => {
+    const totalTours = await Tour.count();
+    const tourCode = generateTourCode(totalTours + 1);
+
+    const dataTour = {
+        title : req.body.title,
+        code : tourCode,
+        price : parseInt(req.body.price),
+        discount : parseInt(req.body.discount),
+        information : req.body.description,
+        stock : parseInt(req.body.stock),
+        timeStart : req.body.timeStart,
+        status : req.body.status,
+    }
+
+    console.log(dataTour)
+
+    res.send("Create")
+    // res.render("admin/pages/tour/create.pug",{
+    //     categories : categories
+    // })
 }
 
 // [DELETE] /admin/tours/delete/:id
@@ -152,3 +185,5 @@ export const deleted = async (req: Request, res: Response) => {
     req.flash("success", "Xóa tour thành công")
     res.redirect('/admin/tours');
 }
+
+

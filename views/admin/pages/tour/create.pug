@@ -1,6 +1,7 @@
 extends ../../layouts/default.pug
 //- include ../../mixins/alert.pug
 //- include ../../mixins/select-tree.pug
+//- enctype="multipart/form-data"
 
 block main  
     
@@ -10,7 +11,7 @@ block main
         action =`${prefixAdmin}/tours/create`
         id="form-create-tour"
         method="POST"
-        enctype="multipart/form-data"
+        
     )
         div(class="form-group")
             label(for="title") Tiêu đề
@@ -22,35 +23,38 @@ block main
                 required
             )
         div(class="form-group")
-            label(for="tour_category_id") Danh mục
+            label(for="category_id") Danh mục
             select(
-                name="tour_category_id"
-                id="tour_category_id"
+                name="category_id"
+                id="category_id"
                 class="form-control"
             )
-                option(value="") -- Chọn danh mục --
+                option(value="" disabled selected) -- Chọn danh mục --
+                each category in categories
+                    option(value=category.id ) #{category.title}
+                    
                 //- if(records)
                 //-     +select-tree(records)
 
-        div(class="form-group form-check form-check-inline")
-            input(
-                type="radio"
-                class ="form-check-input"
-                id="featured1"
-                name="featured"
-                value="1"
-            )
-            lable(for="featured1" class="form-check-lable") Nổi bật
-        div(class="form-group form-check form-check-inline")
-            input(
-                type="radio"
-                class ="form-check-input"
-                id="featured0"
-                name="featured"
-                value="0"
-                checked
-            )
-            lable(for="featured0" class="form-check-lable") Không 
+        //- div(class="form-group form-check form-check-inline")
+        //-     input(
+        //-         type="radio"
+        //-         class ="form-check-input"
+        //-         id="featured1"
+        //-         name="featured"
+        //-         value="1"
+        //-     )
+        //-     lable(for="featured1" class="form-check-lable") Nổi bật
+        //- div(class="form-group form-check form-check-inline")
+        //-     input(
+        //-         type="radio"
+        //-         class ="form-check-input"
+        //-         id="featured0"
+        //-         name="featured"
+        //-         value="0"
+        //-         checked
+        //-     )
+        //-     lable(for="featured0" class="form-check-lable") Không 
         div(class="form-group")
             label(for="desc") Mô tả
             textarea(
@@ -70,12 +74,12 @@ block main
                 min="0"
             )
         div(class="form-group")
-            label(for="discountPercentage") % Giảm giá
+            label(for="discount") % Giảm giá
             input(
                 type="number"
                 class="form-control"
-                id="discountPercentage"
-                name="discountPercentage"
+                id="discount"
+                name="discount"
                 value="0"
                 min="0"
             )
@@ -90,25 +94,35 @@ block main
                 min="0"
             )
         div(class="form-group")
-            label(
-                for="image"
-                upload-image
-                ) Ảnh
+            label(for="timeStart") Lịch khởi hành
             input(
-                type="file"
-                class="form-control-file"
-                id="image"
-                name="image"
-                accept="image/*"
-                upload-image-imput
+                type="datetime-local"
+                class="form-control"
+                id="timeStart"
+                name="timeStart"
+                value="0"
+                min="0"
             )
-            div(class= "image-container")
-                img(
-                    src=""
-                    upload-image-preview
-                    class="image-preview"
-                )
-                button(id="button-close-image") X
+        //- div(class="form-group")
+        //-     label(
+        //-         for="image"
+        //-         upload-image
+        //-         ) Ảnh
+        //-     input(
+        //-         type="file"
+        //-         class="form-control-file"
+        //-         id="image"
+        //-         name="image"
+        //-         accept="image/*"
+        //-         upload-image-imput
+        //-     )
+        //-     div(class= "image-container")
+        //-         img(
+        //-             src=""
+        //-             upload-image-preview
+        //-             class="image-preview"
+        //-         )
+        //-         button(id="button-close-image") X
         div(class="form-group form-check form-check-inline")
             input(
                 type="radio"
