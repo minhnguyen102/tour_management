@@ -1,11 +1,13 @@
 import { Request, Response } from "express"
 import Tour from "../../model/tour.model"
+import Tour_Category from "../../model/tour-category.model"
 import { filterStatusHelper } from "../../helpers/filterStatus"
 import { SearchHelper } from "../../helpers/search"
 import { PaginationHelper } from "../../helpers/pagination"
 import { Op } from "sequelize"
 import Category from "../../model/category.model"
 import { generateTourCode } from "../../helpers/generate"
+import { systemConfig } from "../../config/system"
 
 // [GET] //admin/tour
 export const index = async (req: Request, res: Response) => {
@@ -66,7 +68,9 @@ export const index = async (req: Request, res: Response) => {
     })
     tours.forEach(tour => {
         const images = JSON.parse(tour["images"]);
-        tour["image"] = images[0];
+        if(images){
+            tour["image"] = images[0];
+        }
     })
     
     res.render("admin/pages/tour/index.pug",{
@@ -156,17 +160,26 @@ export const createPost = async (req: Request, res: Response) => {
     const dataTour = {
         title : req.body.title,
         code : tourCode,
+        images : JSON.stringify(req.body.images),
         price : parseInt(req.body.price),
         discount : parseInt(req.body.discount),
-        information : req.body.description,
+        information : req.body.information,
         stock : parseInt(req.body.stock),
         timeStart : req.body.timeStart,
         status : req.body.status,
     }
 
-    console.log(dataTour)
+    const tour = await Tour.create(dataTour);
+    const tour_id = tour["id"] 
 
-    res.send("Create")
+    const dataTourCategory = {
+        tour_id : tour_id,
+        category_id : req.body.category_id
+    }
+    await Tour_Category.create(dataTourCategory)
+
+    // res.send("Create")
+    res.redirect(`${systemConfig.prefixAdmin}/tours`)
     // res.render("admin/pages/tour/create.pug",{
     //     categories : categories
     // })
