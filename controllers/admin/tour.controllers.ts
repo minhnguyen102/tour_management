@@ -11,7 +11,7 @@ import { systemConfig } from "../../config/system"
 
 // [GET] //admin/tour
 export const index = async (req: Request, res: Response) => {
-    let where = {
+    let where: any = {
         deleted : false
     }
 
@@ -24,10 +24,16 @@ export const index = async (req: Request, res: Response) => {
 
     // Search 
     const objectSearch = SearchHelper(req.query);
-        if(objectSearch["regex"]){
-            where["title"] = req.query.keyword;
+        if(objectSearch["keywordRegex"]){
+            // console.log(objectSearch["regex"])
+            where = {
+                [Op.or]: [
+                    { slug: { [Op.regexp]: objectSearch["slugRegex"] } },
+                    { title: { [Op.regexp]: objectSearch["keywordRegex"] } }
+                ]
+            }
         }
-    
+
     // End Search 
 
     // Pagination
