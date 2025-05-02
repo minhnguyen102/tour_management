@@ -1,6 +1,7 @@
 extends ../../layouts/default.pug
 //- include ../../mixins/alert.pug
 //- include ../../mixins/select-tree.pug
+//- id="my-expressjs-tinymce-app"
 
 
 block main  
@@ -35,6 +36,20 @@ block main
                     
                 //- if(records)
                 //-     +select-tree(records)
+        div(class="form-group")
+            label(
+                for="images"
+                upload-image
+                ) Chọn nhiều ảnh
+            input(
+                type="file"
+                class="form-control-file"
+                id="images"
+                name="images"
+                accept="image/*"
+                upload-image-imput
+                multiple
+            )
 
         //- div(class="form-group form-check form-check-inline")
         //-     input(
@@ -55,14 +70,7 @@ block main
         //-         checked
         //-     )
         //-     lable(for="featured0" class="form-check-lable") Không 
-        div(class="form-group")
-            label(for="information") Mô tả
-            textarea(
-                class="form-control textarea-mce"
-                name="information"
-                id="my-expressjs-tinymce-app"
-                rows="5"
-            )
+        
         div(class="form-group")
             label(for="price") Giá
             input(
@@ -103,20 +111,7 @@ block main
                 value="0"
                 min="0"
             )
-        div(class="form-group")
-            label(
-                for="images"
-                upload-image
-                ) Chọn nhiều ảnh
-            input(
-                type="file"
-                class="form-control-file"
-                id="images"
-                name="images"
-                accept="image/*"
-                upload-image-imput
-                multiple
-            )
+        
             //- div(class= "image-container")
             //-     img(
             //-         src=""
@@ -124,6 +119,23 @@ block main
             //-         class="image-preview"
             //-     )
             //-     button(id="button-close-image") X
+
+        div(class="form-group")
+            label(for="information") Thông tin tour
+            textarea(
+                class="form-control textarea-mce"
+                name="information"
+                id="information"
+                textarea-mce 
+            )
+        div(class="form-group")
+            label(for="schedule") Lịch trình tour
+            textarea(
+                class="form-control textarea-mce"
+                id="schedule"
+                name="schedule"
+                textarea-mce 
+            )
         div(class="form-group form-check form-check-inline")
             input(
                 type="radio"
