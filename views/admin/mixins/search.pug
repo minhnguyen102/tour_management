@@ -1,17 +1,28 @@
 mixin search(keyword)
-    form(
-        id="form-search")
-        .input-group 
-            input(
-                type="text"
-                placeholder="Nhập từ khóa"
-                name="keyword"
-                class="form-control"
-                value=keyword
-                autocomplete="off"
-            )
-            .input-group-append 
-                button(
-                    class="btn btn-success"
-                    type="submit"
-                ) Tìm
+  form(
+    id="form-search")
+    .input-group 
+      input(
+        type="text"
+        placeholder="Nhập từ khóa"
+        name="keyword"
+        class="form-control"
+        value=keyword
+        autocomplete="off"
+      )
+      .input-group-append 
+        button(
+          class="btn btn-success"
+          type="submit"
+        ) Tìm
+
+  .inner-suggest
+    .inner-list 
+      //- a(href=`/admin/tours/detail/:slgTour` class="inner-item") 
+      //-   .inner-image
+      //-     img(src="https://luxtour.com.vn/wp-content/uploads/2021/03/tour-ninh-binh-2-ngay-1-dem-3.jpg", alt="")
+      //-   .inner-infor 
+      //-     .inner-title Tour Ha Long
+      //-     .inner-singer
+      //-       <i class="fa-solid fa-money-check-dollar"></i> 100000
+          

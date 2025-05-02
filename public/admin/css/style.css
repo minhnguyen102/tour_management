@@ -151,3 +151,83 @@
     cursor: pointer;
 }
 /* End Alert-hidden */
+
+/* box search */
+/* Gợi ý dưới ô tìm kiếm */
+.inner-suggest {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    max-height: 300px;
+    overflow-y: auto;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-top: none;
+    z-index: 1000;
+    display: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  }
+  
+  /* Khi có kết quả gợi ý */
+  .inner-suggest.show {
+    display: block;
+  }
+  
+  /* Danh sách các item */
+  .inner-list {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Một item gợi ý */
+  .inner-item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    text-decoration: none;
+    color: #333;
+    border-bottom: 1px solid #f0f0f0;
+    transition: background-color 0.2s ease;
+  }
+  
+  .inner-item:hover {
+    background-color: #f9f9f9;
+  }
+  
+  /* Ảnh đại diện tour */
+  .inner-image img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 4px;
+    margin-right: 10px;
+  }
+  
+  /* Phần thông tin */
+  .inner-infor {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Tên tour */
+  .inner-title {
+    font-weight: bold;
+    font-size: 14px;
+    margin-bottom: 4px;
+  }
+  
+  /* Giá tour */
+  .inner-singer {
+    font-size: 13px;
+    color: #666;
+    display: flex;
+    align-items: center;
+  }
+  
+  .inner-singer i {
+    margin-right: 5px;
+    color: #28a745;
+  }
+  
+/* End box search */

@@ -138,5 +138,48 @@ if(showAlert){
         showAlert.classList.add("alert-hidden");
     })
 }
-
 // End Flash
+
+// Search suggest
+const formSearchSuggest = document.querySelector("#form-search")
+if(formSearchSuggest){
+    const keyword = formSearchSuggest.querySelector("input[name='keyword']");
+    keyword.addEventListener("keyup", () => {
+        const keywordSuggest = keyword.value
+        console.log(keywordSuggest);
+
+        const link = `/admin/search/suggest?keyword=${keywordSuggest}`
+        fetch(link)
+            .then(res => res.json())
+            .then(data => {
+                const tours = data.tours;
+                const boxSuggest = document.querySelector(".inner-suggest")
+                if(tours.length > 0){
+                    boxSuggest.classList.add("show")
+
+                    const htmls = tours.map(tour => {
+                        return `
+                            <a class="inner-item" href="/admin/tours/detail/${tour.id}"> 
+                                <div class="inner-image">
+                                    <img src="${tour.image}" alt="${tour.title}"></div>
+                                <div class="inner-infor"> 
+                                    <div class="inner-title">${tour.title}</div>
+                                    <div class="inner-singer">
+                                        <i class="fa-solid fa-money-check-dollar"></i> ${tour.price.toLocaleString()}đ
+                                    </div>
+                                </div>
+                            </a>
+                        `
+                    })
+
+                    const listBox = boxSuggest.querySelector(".inner-list");
+                    listBox.innerHTML = htmls.join("")
+                }else{
+                    boxSuggest.classList.remove("show")
+                }
+            })
+
+    })
+}
+
+// End Search suggest

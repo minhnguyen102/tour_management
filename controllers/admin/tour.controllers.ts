@@ -24,15 +24,15 @@ export const index = async (req: Request, res: Response) => {
 
     // Search 
     const objectSearch = SearchHelper(req.query);
-        if(objectSearch["keywordRegex"]){
-            // console.log(objectSearch["regex"])
-            where = {
-                [Op.or]: [
-                    { slug: { [Op.regexp]: objectSearch["slugRegex"] } },
-                    { title: { [Op.regexp]: objectSearch["keywordRegex"] } }
-                ]
-            }
+    if(objectSearch["keywordRegex"]){
+        // console.log(objectSearch["regex"])
+        where = {
+            [Op.or]: [
+                { slug: { [Op.regexp]: objectSearch["slugRegex"] } },
+                { title: { [Op.regexp]: objectSearch["keywordRegex"] } }
+            ]
         }
+    }
 
     // End Search 
 
