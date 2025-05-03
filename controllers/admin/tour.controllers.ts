@@ -240,9 +240,8 @@ export const edit = async (req: Request, res: Response) => {
 
 // [PATCH] /admin/tours/edit/:id
 export const editPatch = async (req: Request, res: Response) => {
-    console.log(req.body);
     const id = req.params.id;
-
+    // update tour
     await Tour.update({
         title : req.body.title,
         code : req.body.code,
@@ -256,6 +255,15 @@ export const editPatch = async (req: Request, res: Response) => {
     },{
         where : {
             id : id
+        }
+    })
+
+    // update tour_category
+    await Tour_Category.update({
+        category_id : parseInt(req.body.category_id)
+    },{
+        where : {
+            tour_id : id
         }
     })
     req.flash("success", "Cập nhật thông tin tour thành công")
