@@ -39,6 +39,8 @@ router.patch('/edit/:id',
     uploadCloud.uploadFields,
     controllers.editPatch)
 
+router.get('/detail/:id', controllers.detail)
+
 router.delete('/delete/:id', controllers.deleted)
 
 export const tourRouter = router

@@ -45,12 +45,16 @@ if(buttonsDelete.length > 0){
     const formDelete = document.querySelector("#form-button-delete")
     if(formDelete){
         buttonsDelete.forEach(button => {
+            
             button.addEventListener("click", () => {
-                const idItem = button.getAttribute("id-item");
-                const dataPath = formDelete.getAttribute("data-path");
-                const newPath = `${dataPath}/${idItem}?_method=DELETE`;
-                formDelete.action = newPath;
-                formDelete.submit();
+                const isConfirm = confirm("Bạn muốn xóa sản phẩm này ? ")
+                if(isConfirm){
+                    const idItem = button.getAttribute("id-item");
+                    const dataPath = formDelete.getAttribute("data-path");
+                    const newPath = `${dataPath}/${idItem}?_method=DELETE`;
+                    formDelete.action = newPath;
+                    formDelete.submit();
+                }
             })
         })
     }

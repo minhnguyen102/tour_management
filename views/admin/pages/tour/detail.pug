@@ -1,0 +1,129 @@
+extends ../../layouts/default.pug
+include ../../mixins/alert.pug
+
+
+block main
+    style.
+        .container {
+        max-width: 800px;
+        margin: 40px auto;
+        padding: 20px;
+        background-color: #ffffff;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+        text-align: center;
+        margin-bottom: 30px;
+        color: #333;
+        }
+
+        .form-group {
+        margin-bottom: 20px;
+        }
+
+        label {
+        font-weight: bold;
+        display: block;
+        margin-bottom: 5px;
+        color: #555;
+        }
+
+        p, .content {
+        padding: 10px;
+        background-color: #f8f9fa;
+        border: 1px solid #e1e1e1;
+        border-radius: 5px;
+        color: #333;
+        }
+
+        .image-container {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-top: 10px;
+        }
+
+        .image-preview {
+        width: 150px;
+        height: auto;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        }
+
+        .btn-primary {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: white;
+        text-decoration: none;
+        border-radius: 4px;
+        text-align: center;
+        }
+
+        .btn-primary:hover {
+        background-color: #0056b3;
+        }
+
+    +alert-success(5000)
+    h1(class="mb-4") Chi tiết Tour
+
+    .form-group
+      label Tiêu đề: 
+      p= tour.title
+
+    .form-group
+      label Mã tour:
+      p= tour.code
+
+    .form-group
+      label Danh mục:
+      p= inforCategory[0].title
+
+    .form-group
+      label Hình ảnh:
+      .image-container
+        if tour.image
+          img.image-preview(src=tour.image, alt="Tour Image")
+
+    .form-group
+      label Giá:
+      p= tour.price
+
+    .form-group
+      label % Giảm giá:
+      p= tour.discount
+
+    .form-group
+      label Số lượng:
+      p= tour.stock
+
+    .form-group
+      label Lịch khởi hành:
+      p= tour.formatTimeStart
+
+    .form-group
+      label Thông tin tour:
+      .content
+        != tour.information
+
+    .form-group
+      label Lịch trình tour:
+      .content
+        != tour.schedule
+
+    .form-group
+      label Trạng thái:
+      p= tour.status === 'active' ? 'Hoạt động' : 'Dừng hoạt động'
+
+    .form-group
+      a.btn.btn-primary(href=`${prefixAdmin}/tours/edit/${tour.id}`) Chỉnh sửa tour
+
+    
+    script(src="/admin/js/products.js") 
+    
+    //- <!-- Script element sourcing TinyMCE -->
+    <script type="application/javascript" src= "/tinymce/tinymce.min.js"></script>
+    //- <!-- Script element sourcing the TinyMCE configuration -->
+    <script type="application/javascript" src= "/admin/js/my-tinymce-config.js"></script>

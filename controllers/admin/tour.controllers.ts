@@ -230,6 +230,7 @@ export const edit = async (req: Request, res: Response) => {
         }
     })
 
+
     res.render("admin/pages/tour/edit.pug",{
         tour : tour,
         inforCategory : inforCategory,
@@ -239,7 +240,7 @@ export const edit = async (req: Request, res: Response) => {
 
 // [PATCH] /admin/tours/edit/:id
 export const editPatch = async (req: Request, res: Response) => {
-    // console.log(req.body);
+    console.log(req.body);
     const id = req.params.id;
 
     await Tour.update({
@@ -260,6 +261,54 @@ export const editPatch = async (req: Request, res: Response) => {
     req.flash("success", "Cập nhật thông tin tour thành công")
     res.redirect(`/admin/tours/edit/${id}`)
 }
+
+// [GET] /admin/tours/detail/:id
+export const detail = async (req: Request, res: Response) => {
+    const id = req.params.id;
+    const tour = await Tour.findOne({
+        raw : true,
+        where : {
+            id : id
+        }
+    })
+    console.log(tour);
+
+    const images = JSON.parse(tour["images"]);
+    tour['image'] = images[0];
+
+    const timeStart = tour["timeStart"];
+    const formatTimeStart = new Date(timeStart).toISOString().slice(0,16)
+    tour['formatTimeStart'] = formatTimeStart
+
+    // Phần danh mục. => lấy ra tất cả danh mục + lấy ra danh mục cha => so sánh
+    // Lấy ra danh mục cha
+    const sql = `
+        SELECT ct.* 
+            from ((categories ct
+                JOIN tour_categories tc on ct.id = tc.category_id)
+                JOIN tours t on t.id = tc.tour_id)
+            WHERE t.id = ${id}
+    `
+    const inforCategory = await sequelize.query(sql,{
+        type : QueryTypes.SELECT
+    })
+
+    // Lấy ra tất cả danh mục
+    const categories = await Category.findAll({
+        raw : true, 
+        where : {
+            deleted : false,
+            status : "active"
+        }
+    })
+
+    res.render("admin/pages/tour/detail.pug",{
+        tour : tour,
+        inforCategory : inforCategory,
+        categories : categories
+    })
+}
+
 // [DELETE] /admin/tours/delete/:id
 export const deleted = async (req: Request, res: Response) => {
     const idItem = req.params.id;
