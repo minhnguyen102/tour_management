@@ -4,10 +4,11 @@ import Tour_Category from "../../model/tour-category.model"
 import { filterStatusHelper } from "../../helpers/filterStatus"
 import { SearchHelper } from "../../helpers/search"
 import { PaginationHelper } from "../../helpers/pagination"
-import { Op } from "sequelize"
+import { Op, QueryTypes } from "sequelize"
 import Category from "../../model/category.model"
 import { generateTourCode } from "../../helpers/generate"
 import { systemConfig } from "../../config/system"
+import sequelize from "../../config/database"
 
 // [GET] //admin/tour
 export const index = async (req: Request, res: Response) => {
@@ -187,11 +188,54 @@ export const createPost = async (req: Request, res: Response) => {
 
     // res.send("Create")
     res.redirect(`${systemConfig.prefixAdmin}/tours`)
-    // res.render("admin/pages/tour/create.pug",{
-    //     categories : categories
-    // })
+    
 }
 
+// [GET] /admin/tours/edit/:id
+export const edit = async (req: Request, res: Response) => {
+    const id = req.params.id;
+    const tour = await Tour.findOne({
+        raw : true,
+        where : {
+            id : id
+        }
+    })
+
+    const images = JSON.parse(tour["images"]);
+    tour['image'] = images[0];
+
+    const timeStart = tour["timeStart"];
+    const formatTimeStart = new Date(timeStart).toISOString().slice(0,16)
+    tour['formatTimeStart'] = formatTimeStart
+
+    // Phần danh mục. => lấy ra tất cả danh mục + lấy ra danh mục cha => so sánh
+    // Lấy ra danh mục cha
+    const sql = `
+        SELECT ct.* 
+            from ((categories ct
+                JOIN tour_categories tc on ct.id = tc.category_id)
+                JOIN tours t on t.id = tc.tour_id)
+            WHERE t.id = ${id}
+    `
+    const inforCategory = await sequelize.query(sql,{
+        type : QueryTypes.SELECT
+    })
+
+    // Lấy ra tất cả danh mục
+    const categories = await Category.findAll({
+        raw : true, 
+        where : {
+            deleted : false,
+            status : "active"
+        }
+    })
+
+    res.render("admin/pages/tour/edit.pug",{
+        tour : tour,
+        inforCategory : inforCategory,
+        categories : categories
+    })
+}
 // [DELETE] /admin/tours/delete/:id
 export const deleted = async (req: Request, res: Response) => {
     const idItem = req.params.id;

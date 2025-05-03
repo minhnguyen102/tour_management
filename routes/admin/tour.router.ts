@@ -26,6 +26,8 @@ router.post(
     uploadCloud.uploadFields,
     controllers.createPost)
 
+router.get('/edit/:id', controllers.edit)
+
 router.delete('/delete/:id', controllers.deleted)
 
 export const tourRouter = router
