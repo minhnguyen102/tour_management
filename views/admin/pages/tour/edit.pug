@@ -1,8 +1,8 @@
 extends ../../layouts/default.pug
-
+include ../../mixins/alert.pug
 
 block main  
-    
+    +alert-success(5000)
     h1(class="mb-4") Chỉnh sửa sản phẩm
     
     form(
@@ -19,6 +19,16 @@ block main
                 id="title"
                 name="title"
                 value=tour.title
+            )
+        div(class="form-group")
+            label(for="code") Mã tour
+            input(
+                type="text"
+                class="form-control"
+                id="code"
+                name="code"
+                value=tour.code
+                readonly
             )
         div(class="form-group")
             label(for="category_id") Danh mục
@@ -137,8 +147,8 @@ block main
         div(class="form-group")
             button(
                 type="submit"
-                class="btn btn-primary"
-            ) Tạo mới
+                class="btn btn-warning"
+            ) Cập nhật
     
     script(src="/admin/js/products.js") 
     //- <!-- Script element sourcing TinyMCE -->

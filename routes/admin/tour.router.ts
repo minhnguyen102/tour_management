@@ -28,6 +28,17 @@ router.post(
 
 router.get('/edit/:id', controllers.edit)
 
+router.patch('/edit/:id',
+    upload.fields([{ 
+        name: 'images', maxCount: 10
+    }]),
+    // (req: Request, res, next) => {
+    //     console.log('FILES:', req["files"]); // ← kiểm tra ở đây
+    //     next();
+    // },
+    uploadCloud.uploadFields,
+    controllers.editPatch)
+
 router.delete('/delete/:id', controllers.deleted)
 
 export const tourRouter = router

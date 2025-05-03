@@ -200,7 +200,7 @@ export const edit = async (req: Request, res: Response) => {
             id : id
         }
     })
-
+    // console.log(tour)
     const images = JSON.parse(tour["images"]);
     tour['image'] = images[0];
 
@@ -235,6 +235,30 @@ export const edit = async (req: Request, res: Response) => {
         inforCategory : inforCategory,
         categories : categories
     })
+}
+
+// [PATCH] /admin/tours/edit/:id
+export const editPatch = async (req: Request, res: Response) => {
+    // console.log(req.body);
+    const id = req.params.id;
+
+    await Tour.update({
+        title : req.body.title,
+        code : req.body.code,
+        price : parseInt(req.body.price),
+        discount : parseInt(req.body.discount),
+        stock: parseInt(req.body.stock),
+        information : req.body.information,
+        schedule : req.body.schedule,
+        timeStart : new Date(req.body.timeStart),
+        status : req.body.status
+    },{
+        where : {
+            id : id
+        }
+    })
+    req.flash("success", "Cập nhật thông tin tour thành công")
+    res.redirect(`/admin/tours/edit/${id}`)
 }
 // [DELETE] /admin/tours/delete/:id
 export const deleted = async (req: Request, res: Response) => {
