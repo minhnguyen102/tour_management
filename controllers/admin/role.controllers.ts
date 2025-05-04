@@ -68,3 +68,18 @@ export const editPatch = async (req: Request, res: Response) => {
     req.flash("success", "Cập nhật thông tin thành công")
     res.redirect(`${systemConfig.prefixAdmin}/roles/edit/${id}`);
 }
+
+// [GET] /admin/roles/detail/:id
+export const detail = async (req: Request, res: Response) => {
+    const id = req.params.id;    
+    const role = await Role.findOne({
+        raw : true,
+        where : {
+            id : id,
+            deleted : false,
+        }
+    })
+    res.render("admin/pages/role/detail.pug",{
+        role : role
+    })
+}

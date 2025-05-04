@@ -12,4 +12,6 @@ router.get('/edit/:id', controllers.edit)
 
 router.patch('/edit/:id', controllers.editPatch)
 
+router.get('/detail/:id', controllers.detail)
+
 export const roleRouter = router
