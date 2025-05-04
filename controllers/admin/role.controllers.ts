@@ -83,3 +83,17 @@ export const detail = async (req: Request, res: Response) => {
         role : role
     })
 }
+
+// [DELETE] /admin/roles/delete/:id
+export const deleted = async (req: Request, res: Response) => {
+    const id = req.params.id;
+    await Role.update({
+        deleted : true
+    },{
+        where : {
+            id : id
+        }
+    })
+    req.flash("success", "Xóa quyền thành công")
+    res.redirect(`${systemConfig.prefixAdmin}/roles`)
+}

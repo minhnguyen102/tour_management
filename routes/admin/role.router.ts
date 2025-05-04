@@ -14,4 +14,6 @@ router.patch('/edit/:id', controllers.editPatch)
 
 router.get('/detail/:id', controllers.detail)
 
+router.delete('/delete/:id', controllers.deleted)
+
 export const roleRouter = router
