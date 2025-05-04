@@ -6,7 +6,7 @@ import Tour from "../../model/tour.model"
 // [GET] /admin/search/suggest
 export const suggest = async (req: Request, res: Response) => {
     let where: any = {
-        deleted : false
+        deleted : false,
     }
 
     const objectSearch = SearchHelper(req.query);
