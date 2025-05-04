@@ -16,4 +16,9 @@ router.get('/detail/:id', controllers.detail)
 
 router.delete('/delete/:id', controllers.deleted)
 
+router.get('/permissions', controllers.permissions)
+
+router.patch('/permissions', controllers.permissionsPatch)
+
+
 export const roleRouter = router

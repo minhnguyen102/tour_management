@@ -1,6 +1,7 @@
 import { Request, Response } from "express"
 import Role from "../../model/role.model"
 import { systemConfig } from "../../config/system"
+import { Json } from "sequelize/types/utils"
 
 // [GET] /admin/roles
 export const index = async (req: Request, res: Response) => {
@@ -96,4 +97,33 @@ export const deleted = async (req: Request, res: Response) => {
     })
     req.flash("success", "Xóa quyền thành công")
     res.redirect(`${systemConfig.prefixAdmin}/roles`)
+}
+
+// [GET] /admin/roles/permissions
+export const permissions = async (req: Request, res: Response) => {
+    const records = await Role.findAll({
+        raw : true,
+        where : {
+            deleted : false
+        }
+    })
+    res.render("admin/pages/role/permissions.pug",{
+        records : records
+    })
+}
+
+// [PATCH] /admin/roles/permissions
+export const permissionsPatch = async (req: Request, res: Response) => {
+    const data_permissions = JSON.parse(req.body.permissions);
+    for (const item of data_permissions) {
+        await Role.update({
+            permission : JSON.stringify(item.permissions)
+        },{
+            where : {
+                id : item.id
+            }
+        })
+    }
+    req.flash("success", "Cập nhật quyền thành công")
+    res.redirect(`${systemConfig.prefixAdmin}/roles/permissions`)
 }
