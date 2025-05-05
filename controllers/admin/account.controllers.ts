@@ -1,12 +1,12 @@
-import { Request, Response } from "express"
 import md5 from "md5";
 import Role from "../../model/role.model";
-import { generateRandomTokenAccount } from "../../helpers/generate"
 import Account from "../../model/account.model";
+import { Op } from "sequelize";
+import { Request, Response } from "express"
 import { systemConfig } from "../../config/system";
-import { Op } from "sequelize"
-import { filterStatusHelper } from "../../helpers/filterStatus"
 import { PaginationHelper } from "../../helpers/pagination"
+import { filterStatusHelper } from "../../helpers/filterStatus"
+import { generateRandomTokenAccount } from "../../helpers/generate"
 
 // [GET] /admin/accounts
 export const index = async (req: Request, res: Response) => {
@@ -37,8 +37,6 @@ export const index = async (req: Request, res: Response) => {
     )
     // End Pagination
 
-
-
     //  Lấy ra danh sách tài khoản
     const accounts = await Account.findAll({
         raw : true,
@@ -65,6 +63,22 @@ export const index = async (req: Request, res: Response) => {
         filterStatus : filterStatus,
         objectPagination : objectPagination
     })
+}
+
+// [PATCH] /admin/accounts/change-status/1/inactive
+export const changeStatus = async (req: Request, res: Response) => {
+    // console.log(req.method)
+    const idItem = req.params.id;
+    const newStatus = req.params.status;
+    await Account.update({
+        status : newStatus
+    },{
+        where : {
+            id : idItem
+        }
+    })
+    req.flash("success", "Thay đổi trạng thái tài khoản thành công")
+    res.redirect('/admin/accounts');
 }
 
 // [GET] /admin/accounts/create
