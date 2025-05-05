@@ -4,6 +4,7 @@ import Role from "../../model/role.model";
 import { generateRandomTokenAccount } from "../../helpers/generate"
 import Account from "../../model/account.model";
 import { systemConfig } from "../../config/system";
+import { Op } from "sequelize"
 
 // [GET] /admin/accounts
 export const index = async (req: Request, res: Response) => {
@@ -84,7 +85,6 @@ export const edit = async (req: Request, res: Response) => {
             deleted : false
         }
     })
-
     res.render("admin/pages/account/edit.pug",{
         account : account,
         roles : roles
@@ -94,26 +94,37 @@ export const edit = async (req: Request, res: Response) => {
 // [PATCH] /admin/accounts/edit/:id
 export const editPatch = async (req: Request, res: Response) => {
     const id = req.params.id;
-    const dataUpdate = {
-        fullname : req.body.fullname,
-        email : req.body.email,
-        role_id : parseInt(req.body.role_id),
-        status : req.body.status,
-    }
-    if(req.body.password !== ""){
-        req.body.password = md5(req.body.password);
-        dataUpdate["password"] = req.body.password;
-    }
-    if(req.body.avatar){
-        dataUpdate["avatar"] = req.body.avatar;
-    }
-    
-    await Account.update(dataUpdate,{
+    const checkEmail = await Account.findOne({
         where : {
-            id : id,
-            deleted : false
+            id : {[Op.ne] : id},
+            deleted : false,
+            email : req.body.email
         }
-    })
-    req.flash("success", "Cập nhật thông tin tài khoản thành công")
+    }) // tránh trường hợp sửa email trùng với email của người khác 
+    if(checkEmail){
+        req.flash("error", "Tài khoản email đã tồn tại")
+    }else{
+        const dataUpdate = {
+            fullname : req.body.fullname,
+            email : req.body.email,
+            role_id : parseInt(req.body.role_id),
+            status : req.body.status,
+        }
+        if(req.body.password !== ""){
+            req.body.password = md5(req.body.password);
+            dataUpdate["password"] = req.body.password;
+        }
+        if(req.body.avatar){
+            dataUpdate["avatar"] = req.body.avatar;
+        }
+        
+        await Account.update(dataUpdate,{
+            where : {
+                id : id,
+                deleted : false
+            }
+        })
+        req.flash("success", "Cập nhật thông tin tài khoản thành công")
+    }
     res.redirect(`${systemConfig.prefixAdmin}/accounts/edit/${id}`)
 }
