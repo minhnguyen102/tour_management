@@ -15,4 +15,11 @@ router.post('/create',
     uploadCloud.uploadSingle,
     controllers.createPost)
 
+router.get('/edit/:id', controllers.edit)
+
+router.patch('/edit/:id',
+    upload.single("avatar"),
+    uploadCloud.uploadSingle,
+    controllers.editPatch)
+
 export const accountRouter = router
