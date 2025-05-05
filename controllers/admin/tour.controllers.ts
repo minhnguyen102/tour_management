@@ -62,7 +62,6 @@ export const index = async (req: Request, res: Response) => {
     }else{
         order.push(["price", "asc"])
     }
-    
     // End Sort
 
     const tours = await Tour.findAll({

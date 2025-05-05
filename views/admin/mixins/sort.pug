@@ -14,3 +14,20 @@ mixin sort()
             class="btn btn-danger mt-2"
             sort-clear
         ) Xóa
+
+mixin sortAccount()
+    div(sort)
+        select(
+            class="form-control"
+            name="sort"
+            sort-select
+        )
+            option(value="email-asc") Email A - Z
+            option(value="email-desc") Email Z - A
+            option(value="role_id-asc") Quyền giảm dần
+            option(value="role_id-desc" selected=true) Quyền tăng dần
+
+        button(
+            class="btn btn-danger mt-2"
+            sort-clear
+        ) Xóa
