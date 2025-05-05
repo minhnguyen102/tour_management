@@ -109,23 +109,29 @@ export const create = async (req: Request, res: Response) => {
 
 // [GET] /admin/accounts/create
 export const createPost = async (req: Request, res: Response) => {
-    req.body.password = md5(req.body.password);
-    // sinh token
-    const token = generateRandomTokenAccount(20);
-    
-    const dataAccount = {
-        fullname : req.body.fullname,
-        email : req.body.email,
-        password : req.body.password,
-        token : token,
-        avatar : req.body.avatar,
-        role_id : parseInt(req.body.role_id),
-        status : req.body.status,
-    }
-    await Account.create(dataAccount);
-    req.flash("success","Tạo tài khoản thành công");
+    try {
+        req.body.password = md5(req.body.password);
+        // sinh token
+        const token = generateRandomTokenAccount(20);
+        
+        const dataAccount = {
+            fullname : req.body.fullname,
+            email : req.body.email,
+            password : req.body.password,
+            token : token,
+            avatar : req.body.avatar,
+            role_id : parseInt(req.body.role_id),
+            status : req.body.status,
+        }
+        await Account.create(dataAccount);
+        req.flash("success","Tạo tài khoản thành công");
 
-    res.redirect(`${systemConfig.prefixAdmin}/accounts`);
+        res.redirect(`${systemConfig.prefixAdmin}/accounts`);
+    } catch (error) {
+        console.error("Lỗi tạo tài khoản:", error);
+        req.flash("error", "Tạo tài khoản thất bại");
+        res.redirect(`${systemConfig.prefixAdmin}/accounts/create`);
+    }
 }
 
 // [GET] /admin/accounts/edit/:id
