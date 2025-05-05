@@ -1,8 +1,8 @@
-import { Request, Response } from "express"
 import Category from "../../model/category.model"
-import { filterStatusHelper } from "../../helpers/filterStatus"
-import { PaginationHelper } from "../../helpers/pagination"
+import { Request, Response } from "express"
 import { SearchHelper } from "../../helpers/search"
+import { PaginationHelper } from "../../helpers/pagination"
+import { filterStatusHelper } from "../../helpers/filterStatus"
 
 // [GET] //admin/tours-category
 export const index = async (req: Request, res: Response) => {
@@ -41,7 +41,6 @@ export const index = async (req: Request, res: Response) => {
     )
     // End Pagination
 
-
     const categories = await Category.findAll({
         raw : true,
         limit : objectPagination["limitItem"],
@@ -57,6 +56,27 @@ export const index = async (req: Request, res: Response) => {
     })
 }
 
+// [GET] //admin/tours-category/create
+export const create = async (req: Request, res: Response) => {
+    res.render("admin/pages/category/create.pug")
+}
+
+// [POST] //admin/tours-category/create
+export const createPost = async (req: Request, res: Response) => {
+    // console.log(req.body);
+    
+    const dataCategory = {
+        title : req.body.title,
+        description : req.body.description,
+        status : req.body.status,
+        image : req.body.image
+    }
+    
+    await Category.create(dataCategory);
+    req.flash("success", "Tạo mới danh mục tour thành công")
+    res.render("admin/pages/category/create.pug")
+}
+
 // [PATCH] /admin/tours-category/change-status/1/inactive
 export const changeStatus = async (req: Request, res: Response) => {
     // console.log(req.method)
@@ -69,7 +89,7 @@ export const changeStatus = async (req: Request, res: Response) => {
             id : idItem
         }
     })
-    // req.flash("success", "Thay đổi trạng thái sản phẩm thành công")
+    req.flash("success", "Thay đổi trạng thái sản phẩm thành công")
     res.redirect('/admin/tours-category');
 }
 

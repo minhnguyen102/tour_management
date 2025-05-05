@@ -1,8 +1,5 @@
 extends ../../layouts/default.pug
 include ../../mixins/alert.pug
-//- include ../../mixins/select-tree.pug
-//- id="my-expressjs-tinymce-app"
-
 
 block main  
     +alert-success(5000)
@@ -34,8 +31,6 @@ block main
                 each category in categories
                     option(value=category.id ) #{category.title}
                     
-                //- if(records)
-                //-     +select-tree(records)
         div(class="form-group")
             label(
                 for="images"

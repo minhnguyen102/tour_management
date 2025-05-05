@@ -1,0 +1,86 @@
+extends ../../layouts/default.pug
+include ../../mixins/alert.pug
+
+
+block main
+    +alert-error(5000)
+    +alert-success(5000)
+    
+    h1(class="mb-4") Thêm mới danh mục tour
+
+    form(
+        action =`${prefixAdmin}/tours-category/create`
+        id="form-create-tours-category"
+        method="POST"
+        enctype="multipart/form-data"
+    )
+        div(class="form-group")
+            label(for="title") Tiêu đề
+            input(
+                type="text"
+                class="form-control"
+                id="title"
+                name="title"
+                required
+            )
+
+        div(
+            class="form-group"
+            upload-image
+        )
+            label(for="image") Ảnh
+            input(
+                type="file"
+                class="form-control-file"
+                id="image"
+                name="image"
+                accept="image/*"
+                upload-image-input
+            )
+            //- div(
+            //-     class= "image-container"
+            //- )
+            //-     img(
+            //-         upload-image-preview
+            //-         class="image-preview"
+            //-     )
+            //-     button(id="button-close-image") X
+
+        div(class="form-group")
+            label(for="description") Mô tả
+            textarea(
+                class="form-control textarea-mce"
+                name="description"
+                id="my-expressjs-tinymce-app"
+                rows="5"
+            )
+        
+        div(class="form-group form-check form-check-inline")
+            input(
+                type="radio"
+                class="form-check-input"
+                id="statusActive"
+                name="status"
+                value="active"
+                checked
+            )
+            label(for="statusActive" class="form-check-lable") Hoạt động 
+        div(class="form-group form-check form-check-inline")
+            input(
+                type="radio"
+                class="form-check-input"
+                id="statusInactive"
+                name="status"
+                value="inactive"
+            )
+            label(for="statusInactive" class="form-check-lable") Dừng hoạt động 
+        div(class="form-group")
+            button(
+                type="submit"
+                class="btn btn-primary"
+            ) Cập nhật
+
+    script(src="/admin/js/products.js")
+    <script type="application/javascript" src= "/tinymce/tinymce.min.js"></script>
+    //- <!-- Script element sourcing the TinyMCE configuration -->
+    <script type="application/javascript" src= "/admin/js/my-tinymce-config.js"></script> 
