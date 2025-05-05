@@ -2,8 +2,8 @@ extends ../../layouts/default
 include ../../mixins/alert.pug
 include ../../mixins/formHidden.pug
 include ../../mixins/filterStatus.pug
-//- include ../../mixins/search.pug
-//- include ../../mixins/pagination.pug
+include ../../mixins/search.pug
+include ../../mixins/pagination.pug
 
 block main
   +alert-success(5000)
@@ -91,7 +91,7 @@ block main
                     href=`${prefixAdmin}/accounts/detail/${item.id}`
                     class="btn btn-secondary btn-sm ml-1"
                   ) Chi tiết
-  //- +pagination(objectPagination)
+  +pagination(objectPagination)
 
 
   +formHidden("form-button-delete", `${prefixAdmin}/accounts/delete`)

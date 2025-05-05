@@ -6,6 +6,7 @@ import Account from "../../model/account.model";
 import { systemConfig } from "../../config/system";
 import { Op } from "sequelize"
 import { filterStatusHelper } from "../../helpers/filterStatus"
+import { PaginationHelper } from "../../helpers/pagination"
 
 // [GET] /admin/accounts
 export const index = async (req: Request, res: Response) => {
@@ -20,10 +21,29 @@ export const index = async (req: Request, res: Response) => {
     console.log(filterStatus);
     // End filerStatus
 
+    // Pagination
+    const totalAccount = await Account.count({
+        where : {
+            deleted : false
+        }
+    })
+    const objectPagination = PaginationHelper(
+        {
+            limitItem : 5,
+            currentPage : 1
+        },
+        req.query,
+        totalAccount
+    )
+    // End Pagination
+
+
 
     //  Lấy ra danh sách tài khoản
     const accounts = await Account.findAll({
         raw : true,
+        limit : objectPagination["limitItem"],
+        offset : objectPagination["skip"],
         where : where
     })
 
@@ -42,7 +62,8 @@ export const index = async (req: Request, res: Response) => {
 
     res.render("admin/pages/account/index.pug",{
         accounts : accounts,
-        filterStatus : filterStatus
+        filterStatus : filterStatus,
+        objectPagination : objectPagination
     })
 }
 

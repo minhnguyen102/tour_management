@@ -34,7 +34,6 @@ export const index = async (req: Request, res: Response) => {
             ]
         }
     }
-
     // End Search 
 
     // Pagination
