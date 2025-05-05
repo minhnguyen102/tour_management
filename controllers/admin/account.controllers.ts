@@ -128,3 +128,28 @@ export const editPatch = async (req: Request, res: Response) => {
     }
     res.redirect(`${systemConfig.prefixAdmin}/accounts/edit/${id}`)
 }
+
+// [GET] /admin/accounts/detail/:id
+export const detail = async (req: Request, res: Response) => { 
+    const id = req.params.id;
+
+    const account = await Account.findOne({
+        raw : true,
+        where : {
+            id : id,
+            deleted : false
+        }
+    })
+    const role_id = account["role_id"];
+    const role = await Role.findOne({
+        raw : true,
+        where : {
+            id : role_id,
+            deleted : false
+        }
+    })
+    res.render("admin/pages/account/detail.pug",{
+        account : account,
+        role : role
+    })
+}
