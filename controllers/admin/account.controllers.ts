@@ -153,3 +153,18 @@ export const detail = async (req: Request, res: Response) => {
         role : role
     })
 }
+
+// [DELETE] /admin/accounts/detail/:id
+export const deleted = async (req: Request, res: Response) => { 
+    const id = req.params.id;
+    await Account.update({
+        deleted : true
+    },{
+        where : {
+            id : id,
+            deleted : false
+        }
+    })
+    req.flash("success", "Xóa tài khoản thành công");
+    res.redirect(`${systemConfig.prefixAdmin}/accounts`)
+}
