@@ -5,6 +5,7 @@ include ../../mixins/filterStatus.pug
 include ../../mixins/search.pug
 include ../../mixins/pagination.pug
 include ../../mixins/sort.pug
+include ../../mixins/filterAccount.pug
 
 block main
   +alert-success(5000)
@@ -21,11 +22,12 @@ block main
           //- +search(keyword)
 
   .card.mb-3 
-    .card-header Sắp xếp 
+    .card-header Lọc theo tài khoản quyền
     .card-body 
         .row
             .col-4  
-              +sortAccount()
+              //- +sortAccount()
+              +filterAccount()
 
   .card.mb-3 
     .card-header Danh sách tài khoản

@@ -1,0 +1,18 @@
+mixin filterAccount()
+    div(filterAccount)
+        select(
+            class="form-control"
+            name="filter"
+            filter-select
+        )
+            option(value="0") Tất cả
+            each role in roles
+                option(value=role.id) #{role.title}
+                //- option(value="mamager") Quản lí
+                //- option(value="employee") Nhân viên
+            
+
+        button(
+            class="btn btn-danger mt-2"
+            filter-clear
+        ) Xóa

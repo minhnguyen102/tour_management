@@ -7,6 +7,7 @@ import { systemConfig } from "../../config/system";
 import { PaginationHelper } from "../../helpers/pagination"
 import { filterStatusHelper } from "../../helpers/filterStatus"
 import { generateRandomTokenAccount } from "../../helpers/generate"
+import { fileURLToPath } from "url";
 
 // [GET] /admin/accounts
 export const index = async (req: Request, res: Response) => {
@@ -18,7 +19,6 @@ export const index = async (req: Request, res: Response) => {
         where["status"] = req.query.status;
     }
     const filterStatus = filterStatusHelper(req.query);
-    console.log(filterStatus);
     // End filerStatus
 
     // Pagination
@@ -37,24 +37,27 @@ export const index = async (req: Request, res: Response) => {
     )
     // End Pagination
 
-    // Sort
-    let order=[];
-    const sortKey = req.query.sortKey
-    const sortValue = req.query.sortValue;
-    if(sortKey && sortValue){
-        const objectOrder = [sortKey, sortValue];
-        order.push(objectOrder);
-    }else{
-        order.push(["role_id", "desc"])
+    //  lấy ra roles -> id roles 
+    const roles = await Role.findAll({
+        raw : true,
+        where : {
+            deleted : false
+        }
+    })
+
+    // filterAccount
+    const filterAccount = req.query.filterAccount;
+    if(filterAccount && filterAccount !== "0"){
+        const role_id = filterAccount
+        where["role_id"] = role_id
     }
-    // End Sort
+    // End filterAccoun
 
     //  Lấy ra danh sách tài khoản
     const accounts = await Account.findAll({
         raw : true,
         limit : objectPagination["limitItem"],
         offset : objectPagination["skip"],
-        order : order,
         where : where
     })
 
@@ -71,7 +74,10 @@ export const index = async (req: Request, res: Response) => {
         account["role_title"] = role["title"];
     }
 
+    
+
     res.render("admin/pages/account/index.pug",{
+        roles : roles,
         accounts : accounts,
         filterStatus : filterStatus,
         objectPagination : objectPagination

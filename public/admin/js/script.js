@@ -181,5 +181,36 @@ if(formSearchSuggest){
 
     })
 }
-
 // End Search suggest
+
+// filterAccount
+const filterAccount = document.querySelector("[filterAccount]");
+if(filterAccount){
+    const filterSelect = filterAccount.querySelector("[filter-select]");
+    const buttonClear = filterAccount.querySelector("[filter-clear]")
+
+    filterSelect.addEventListener("change", (e) => {
+        const value = e.target.value;
+        if(value){
+            url.searchParams.set("filterAccount", value);
+            window.location.href = url.href;
+        }
+    })
+
+    buttonClear.addEventListener("click", () => {
+        const filterAccount = url.searchParams.get("filterAccount");
+        if(filterAccount){
+            url.searchParams.delete("filterAccount");
+            window.location.href = url.href
+        }
+    })
+
+    // selected 
+    const filter = url.searchParams.get("filterAccount");
+    console.log(filter);
+    const optionSelected = filterAccount.querySelector(`option[value= "${filter}"]`)
+    if(optionSelected){
+        optionSelected.selected = true;
+    }
+}
+// End filterAccount
