@@ -5,17 +5,28 @@ import { generateRandomTokenAccount } from "../../helpers/generate"
 import Account from "../../model/account.model";
 import { systemConfig } from "../../config/system";
 import { Op } from "sequelize"
+import { filterStatusHelper } from "../../helpers/filterStatus"
 
 // [GET] /admin/accounts
 export const index = async (req: Request, res: Response) => {
+    let where: any = {
+        deleted : false
+    }
+    // filerStatus
+    if(req.query.status){
+        where["status"] = req.query.status;
+    }
+    const filterStatus = filterStatusHelper(req.query);
+    console.log(filterStatus);
+    // End filerStatus
+
+
     //  Lấy ra danh sách tài khoản
     const accounts = await Account.findAll({
         raw : true,
-        where : {
-            deleted : false
-        }
+        where : where
     })
-    
+
     // xử lí tiêu đề
     for (const account of accounts) {
         const role_id = account["role_id"];
@@ -30,7 +41,8 @@ export const index = async (req: Request, res: Response) => {
     }
 
     res.render("admin/pages/account/index.pug",{
-        accounts : accounts
+        accounts : accounts,
+        filterStatus : filterStatus
     })
 }
 

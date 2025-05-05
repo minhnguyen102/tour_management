@@ -1,7 +1,7 @@
 extends ../../layouts/default
 include ../../mixins/alert.pug
 include ../../mixins/formHidden.pug
-//- include ../../mixins/filterStatus.pug
+include ../../mixins/filterStatus.pug
 //- include ../../mixins/search.pug
 //- include ../../mixins/pagination.pug
 
@@ -15,7 +15,7 @@ block main
     .card-body 
       .row
         .col-6
-          //- +filterStatus(filterStatus)
+          +filterStatus(filterStatus)
         .col-6
           //- +search(keyword)
 
