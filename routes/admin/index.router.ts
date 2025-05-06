@@ -7,6 +7,7 @@ import { uploadRouter } from "./upload.router"
 import { searchRouter } from "./search.router"
 import { roleRouter } from "./role.router"
 import { accountRouter } from "./account.router"
+import { authRouter } from "./auths.router"
 
 const RouterAdmin = (app: Express) => {
     const PREFIX_ADMIN = systemConfig.prefixAdmin;
@@ -24,6 +25,8 @@ const RouterAdmin = (app: Express) => {
     app.use(`${PREFIX_ADMIN}/roles`, roleRouter)
 
     app.use(`${PREFIX_ADMIN}/accounts`, accountRouter)
+
+    app.use(`${PREFIX_ADMIN}/auth`, authRouter)
     
 }
 
