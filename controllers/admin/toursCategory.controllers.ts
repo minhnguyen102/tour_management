@@ -112,7 +112,6 @@ export const edit = async (req: Request, res: Response) => {
 // [GET] //admin/tours-category/edit/:id
 export const editPatch = async (req: Request, res: Response) => {
     const id = req.params.id;
-    console.log(req.body)
     
     await Category.update(req.body,{
         where : {
@@ -138,4 +137,19 @@ export const detail = async (req: Request, res: Response) => {
     res.render("admin/pages/category/detail.pug",{
         data : data
     })
+}
+
+// [DELETE] //admin/tours-category/delete/:id
+export const deleted = async (req: Request, res: Response) => {
+    const id =  req.params.id;
+    await Category.update({
+        deleted : true
+    },{
+        where : {
+            id : id,
+            deleted : false
+        }
+    })
+    req.flash("success", "Xóa thành công");
+    res.redirect(`${systemConfig.prefixAdmin}/tours-category`)
 }

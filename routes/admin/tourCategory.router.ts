@@ -26,4 +26,6 @@ router.get('/detail/:id', controllers.detail)
 
 router.patch("/change-status/:id/:status", controllers.changeStatus)
 
+router.delete('/delete/:id', controllers.deleted)
+
 export const tourCategoryRouter = router
