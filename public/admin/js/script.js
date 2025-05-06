@@ -146,12 +146,14 @@ if(formSearchSuggest){
     const keyword = formSearchSuggest.querySelector("input[name='keyword']");
     keyword.addEventListener("keyup", () => {
         const keywordSuggest = keyword.value
-        console.log(keywordSuggest);
+        // console.log(keywordSuggest);
 
         const link = `/admin/search/suggest?keyword=${keywordSuggest}`
+        // console.log(link)
         fetch(link)
             .then(res => res.json())
             .then(data => {
+                // console.log(data);
                 const tours = data.tours;
                 const boxSuggest = document.querySelector(".inner-suggest")
                 if(tours.length > 0){
@@ -178,7 +180,6 @@ if(formSearchSuggest){
                     boxSuggest.classList.remove("show")
                 }
             })
-
     })
 }
 // End Search suggest
@@ -214,3 +215,44 @@ if(filterAccount){
     }
 }
 // End filterAccount
+
+// Search Category suggest
+const formSearchCategorySuggest = document.querySelector("#form-search-category")
+if(formSearchCategorySuggest){
+    const keyword = formSearchCategorySuggest.querySelector("input[name='keyword']");
+    keyword.addEventListener("keyup", () => {
+        const keywordSuggest = keyword.value
+        // console.log(keywordSuggest);
+
+        const link = `/admin/search/suggest-category?keyword=${keywordSuggest}`
+        // console.log(link)
+        fetch(link)
+            .then(res => res.json())
+            .then(data => {
+                // console.log(data);
+                const categories = data.categories;
+                const boxSuggest = document.querySelector(".inner-suggest")
+                if(categories.length > 0){
+                    boxSuggest.classList.add("show")
+
+                    const htmls = categories.map(category => {
+                        return `
+                            <a class="inner-item" href="/admin/tours/detail/${category.id}"> 
+                                <div class="inner-image">
+                                    <img src="${category.image}" alt="${category.title}"></div>
+                                <div class="inner-infor"> 
+                                    <div class="inner-title">${category.title}</div>
+                                </div>
+                            </a>
+                        `
+                    })
+
+                    const listBox = boxSuggest.querySelector(".inner-list");
+                    listBox.innerHTML = htmls.join("")
+                }else{
+                    boxSuggest.classList.remove("show")
+                }
+            })
+    })
+}
+// End Search Category suggest

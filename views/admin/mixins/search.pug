@@ -26,3 +26,25 @@ mixin search(keyword)
       //-     .inner-singer
       //-       <i class="fa-solid fa-money-check-dollar"></i> 100000
           
+
+mixin searchCategory(keyword)
+  form(
+    id="form-search-category")
+    .input-group 
+      input(
+        type="text"
+        placeholder="Nhập từ khóa"
+        name="keyword"
+        class="form-control"
+        value=keyword
+        autocomplete="off"
+      )
+      .input-group-append 
+        button(
+          class="btn btn-success"
+          type="submit"
+        ) Tìm
+
+  .inner-suggest
+    .inner-list
+          

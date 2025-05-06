@@ -4,10 +4,11 @@ import { SearchHelper } from "../../helpers/search"
 import { PaginationHelper } from "../../helpers/pagination"
 import { filterStatusHelper } from "../../helpers/filterStatus"
 import { systemConfig } from "../../config/system"
+import { Op } from "sequelize"
 
 // [GET] //admin/tours-category
 export const index = async (req: Request, res: Response) => {
-    const where = {
+    let where: any = {
         deleted : false
     }
 
@@ -20,10 +21,15 @@ export const index = async (req: Request, res: Response) => {
 
     // Search
     const objectSearch = SearchHelper(req.query);
-    if(objectSearch["regex"]){
-        where["title"] = req.query.keyword;
-    }
-    
+    if(objectSearch["keywordRegex"]){
+            // console.log(objectSearch["regex"])
+            where = {
+                [Op.or]: [
+                    { slug: { [Op.regexp]: objectSearch["slugRegex"] } },
+                    { title: { [Op.regexp]: objectSearch["keywordRegex"] } }
+                ]
+            }
+        }
     // End Search
 
     // Pagination
