@@ -3,6 +3,7 @@ import { Request, Response } from "express"
 import { SearchHelper } from "../../helpers/search"
 import { PaginationHelper } from "../../helpers/pagination"
 import { filterStatusHelper } from "../../helpers/filterStatus"
+import { systemConfig } from "../../config/system"
 
 // [GET] //admin/tours-category
 export const index = async (req: Request, res: Response) => {
@@ -74,7 +75,7 @@ export const createPost = async (req: Request, res: Response) => {
     
     await Category.create(dataCategory);
     req.flash("success", "Tạo mới danh mục tour thành công")
-    res.render("admin/pages/category/create.pug")
+    res.redirect(`${systemConfig.prefixAdmin}/tours-category`)
 }
 
 // [PATCH] /admin/tours-category/change-status/1/inactive
@@ -101,16 +102,28 @@ export const edit = async (req: Request, res: Response) => {
         where : {
             id : id,
             deleted : false,
-            status : "active"
         }
     })
-    
     res.render("admin/pages/category/edit.pug",{
         data : data
     })
 }
 
 // [GET] //admin/tours-category/edit/:id
+export const editPatch = async (req: Request, res: Response) => {
+    const id = req.params.id;
+    console.log(req.body)
+    
+    await Category.update(req.body,{
+        where : {
+            id : id
+        }
+    })
+    req.flash("success", "Cập nhật thông tin danh mục thành công")
+    res.redirect(`${systemConfig.prefixAdmin}/tours-category/edit/${id}`)
+}
+
+// [GET] //admin/tours-category/detail/:id
 export const detail = async (req: Request, res: Response) => {
     const id = req.params.id;
     const data = await Category.findOne({

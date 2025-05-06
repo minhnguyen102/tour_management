@@ -17,6 +17,11 @@ router.post('/create',
 
 router.get('/edit/:id', controllers.edit)
 
+router.patch('/edit/:id', 
+    upload.single("image"),
+    uploadCloud.uploadSingle,
+    controllers.editPatch)
+
 router.get('/detail/:id', controllers.detail)
 
 router.patch("/change-status/:id/:status", controllers.changeStatus)
