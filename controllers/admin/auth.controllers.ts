@@ -39,7 +39,13 @@ export const loginPost = async (req: Request, res: Response) => {
 
     // console.log(account);
     res.cookie("token", account["token"],{
-        maxAge : 5000 // đơn vị là milisecond <=> 5s
+        maxAge : 24 * 60 * 60 * 1000 // đơn vị là milisecond <=> 5s
     });
     res.redirect(`${systemConfig.prefixAdmin}/dashboard`)
+}
+
+// [GET] /admin/auth/logout
+export const logout = (req: Request, res: Response) => { 
+    res.clearCookie("token");
+    res.redirect(`${systemConfig.prefixAdmin}/auth/login`)
 }
