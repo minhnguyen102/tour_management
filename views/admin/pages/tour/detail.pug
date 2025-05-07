@@ -117,8 +117,9 @@ block main
       label Trạng thái:
       p= tour.status === 'active' ? 'Hoạt động' : 'Dừng hoạt động'
 
-    .form-group
-      a.btn.btn-primary(href=`${prefixAdmin}/tours/edit/${tour.id}`) Chỉnh sửa tour
+    if(role.permission.includes("tour_edit"))
+      .form-group
+        a.btn.btn-primary(href=`${prefixAdmin}/tours/edit/${tour.id}`) Chỉnh sửa tour
 
     
     script(src="/admin/js/products.js") 

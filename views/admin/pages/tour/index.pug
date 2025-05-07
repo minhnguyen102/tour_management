@@ -33,12 +33,14 @@ block main
         .card-body 
             .row 
                 .col-10
-                    +changeMulti(`${prefixAdmin}/tours/change-multi?_method=PATCH`)
+                    if(role.permission.includes("tour_edit"))
+                        +changeMulti(`${prefixAdmin}/tours/change-multi?_method=PATCH`)
                 .col-2
-                    a(
-                        href=`${prefixAdmin}/tours/create`
-                        class="btn btn-outline-success"
-                    ) + Thêm mới 
+                    if(role.permission.includes("tour_create"))
+                        a(
+                            href=`${prefixAdmin}/tours/create`
+                            class="btn btn-outline-success"
+                        ) + Thêm mới 
             
             table(
                 class="table table-hover table-sm"
@@ -68,22 +70,27 @@ block main
                             td #{item.title}
                             td #{item.price.toLocaleString()}VNĐ
                             td
-                                if(item.status == "active")
-                                    a(
-                                    href="javascript:;" 
-                                    data-status = item.status 
-                                    data-id = item.id 
-                                    button-change-status
-                                    class="badge badge-success"
-                                    
-                                    ) Hoạt động
+                                if(role.permission.includes("tour_edit"))
+                                    if(item.status == "active")
+                                        a(
+                                        href="javascript:;" 
+                                        data-status = item.status 
+                                        data-id = item.id 
+                                        button-change-status
+                                        class="badge badge-success"
+                                        ) Hoạt động
+                                    else 
+                                        a(
+                                        href="javascript:;"
+                                        data-status = item.status 
+                                        data-id = item.id 
+                                        button-change-status  
+                                        class="badge badge-danger") Dừng hoạt động
                                 else 
-                                    a(
-                                    href="javascript:;"
-                                    data-status = item.status 
-                                    data-id = item.id 
-                                    button-change-status  
-                                    class="badge badge-danger") Dừng hoạt động
+                                    if(item.status == "active")
+                                        span(class="badge badge-success") Hoạt động
+                                    else 
+                                        span(class="badge badge-danger") Dừng hoạt động
                             //- td 
                             //-     p #{item.accountFullname}
                             //-     a(href=`${prefixAdmin}/products/create-by/${item.id}`) Chi tiết
@@ -98,19 +105,22 @@ block main
                                 //-         +momentUpdate(updateBy.updateAt)
 
                             td
-                                a(
-                                    href=`${prefixAdmin}/tours/edit/${item.id}`
-                                    class="btn btn-warning btn-sm"
-                                ) Sửa
-                                button(
-                                    id-item = item.id
-                                    button-delete
-                                    class="btn btn-danger btn-sm ml-1"
-                                ) Xóa
-                                a(
-                                    href=`${prefixAdmin}/tours/detail/${item.id}`
-                                    class="btn btn-info btn-sm ml-1"
-                                ) Chi tiết
+                                if(role.permission.includes("tour_edit"))
+                                    a(
+                                        href=`${prefixAdmin}/tours/edit/${item.id}`
+                                        class="btn btn-warning btn-sm"
+                                    ) Sửa
+                                if(role.permission.includes("tour_delete"))
+                                    button(
+                                        id-item = item.id
+                                        button-delete
+                                        class="btn btn-danger btn-sm ml-1"
+                                    ) Xóa
+                                if(role.permission.includes("tour_view"))
+                                    a(
+                                        href=`${prefixAdmin}/tours/detail/${item.id}`
+                                        class="btn btn-info btn-sm ml-1"
+                                    ) Chi tiết
     +pagination(objectPagination)
 
     +formHidden("form-change-status", `${prefixAdmin}/tours/change-status`)

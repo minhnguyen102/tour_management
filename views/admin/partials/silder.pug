@@ -1,23 +1,29 @@
 .sider
     .inner-menu 
-        ul 
+        ul
             li 
                 a(href=`${prefixAdmin}/dashboard`) Tổng quan
-            
-            li 
-                a(href=`${prefixAdmin}/tours-category`) Danh mục tour
-            
-            li 
-                a(href=`${prefixAdmin}/tours`) Danh sách tour
 
-            li 
-                a(href=`${prefixAdmin}/roles`) Danh sách nhóm quyền
+            if(role.permission.includes("tour-category_view")) 
+                li 
+                    a(href=`${prefixAdmin}/tours-category`) Danh mục tour
 
-            li 
-                a(href=`${prefixAdmin}/roles/permissions`) Phân quyền
+            if(role.permission.includes("tour_view")) 
+                li 
+                    a(href=`${prefixAdmin}/tours`) Danh sách tour
 
-            li 
-                a(href=`${prefixAdmin}/accounts`) Danh sách tài khoản
+            if(role.permission.includes("role_view")) 
+                li 
+                    a(href=`${prefixAdmin}/roles`) Danh sách nhóm quyền
 
-            li 
-                a(href=`${prefixAdmin}/orders`) Danh sách đơn hàng
+            if(role.permission.includes("role_permissions")) 
+                li 
+                    a(href=`${prefixAdmin}/roles/permissions`) Phân quyền
+
+            if(role.permission.includes("account_view")) 
+                li 
+                    a(href=`${prefixAdmin}/accounts`) Danh sách tài khoản
+
+            if(role.permission.includes("order_view"))
+                li 
+                    a(href=`${prefixAdmin}/orders`) Danh sách đơn hàng

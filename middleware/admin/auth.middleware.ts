@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express"
 import { systemConfig } from "../../config/system"
 import Account from "../../model/account.model";
+import Role from "../../model/role.model";
 
 
 export const requireAuth = async (req: Request, res: Response, next: NextFunction) => {
@@ -16,8 +17,19 @@ export const requireAuth = async (req: Request, res: Response, next: NextFunctio
             }
         })
 
-        if(account){
-            next(); // tránh trường hợp f12 sửa token
+        if(account){ // tránh trường hợp f12 sửa token
+            const role = await Role.findOne({
+                raw : true,
+                where : {
+                    id : account["role_id"]
+                }
+            })
+            role["permission"] = JSON.parse(role["permission"]);
+            // console.log(role);
+            // console.log(role["permission"].includes("tour-category_view"))
+            res.locals.role = role;
+            res.locals.account = account;
+            next(); 
         }else{
             res.clearCookie("token")
             res.redirect(`${systemConfig.prefixAdmin}/auth/login`);

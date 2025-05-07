@@ -2,153 +2,154 @@ extends ../../layouts/default.pug
 include ../../mixins/alert.pug
 
 block main  
-    +alert-success(5000)
-    h1(class="mb-4") Chỉnh sửa sản phẩm
-    
-    form(
-        action =`${prefixAdmin}/tours/edit/${tour.id}?_method=PATCH`
-        id="form-create-tour"
-        method="POST"
-        enctype="multipart/form-data"
-    )
-        div(class="form-group")
-            label(for="title") Tiêu đề
-            input(
-                type="text"
-                class="form-control"
-                id="title"
-                name="title"
-                value=tour.title
-            )
-        div(class="form-group")
-            label(for="code") Mã tour
-            input(
-                type="text"
-                class="form-control"
-                id="code"
-                name="code"
-                value=tour.code
-                readonly
-            )
-        div(class="form-group")
-            label(for="category_id") Danh mục
-            select(
-                name="category_id"
-                id="category_id"
-                class="form-control"
-            )
-                option(value="" disabled selected) -- Chọn danh mục --
-                each category in categories
-                    option(
-                        value=category.id 
-                        selected = (inforCategory[0].id === category.id ? true : false)
-                        ) #{category.title}
-                    
-        div(class="form-group")
-            label(
-                for="images"
-                upload-image
-                ) Chọn nhiều ảnh
-            input(
-                type="file"
-                class="form-control-file"
-                id="images"
-                name="images"
-                accept="image/*"
-                upload-image-imput
-                multiple
-            )
-
-            div(class= "image-container")
-                img(
-                    src=tour.image
-                    upload-image-preview
-                    class="image-preview"
+    if(role.permission.includes("tour_edit"))
+        +alert-success(5000)
+        h1(class="mb-4") Chỉnh sửa sản phẩm
+        
+        form(
+            action =`${prefixAdmin}/tours/edit/${tour.id}?_method=PATCH`
+            id="form-create-tour"
+            method="POST"
+            enctype="multipart/form-data"
+        )
+            div(class="form-group")
+                label(for="title") Tiêu đề
+                input(
+                    type="text"
+                    class="form-control"
+                    id="title"
+                    name="title"
+                    value=tour.title
                 )
-                button(id="button-close-image") X
-        
-        div(class="form-group")
-            label(for="price") Giá
-            input(
-                type="number"
-                class="form-control"
-                id="price"
-                name="price"
-                value=tour.price
-                min="0"
-            )
-        div(class="form-group")
-            label(for="discount") % Giảm giá
-            input(
-                type="number"
-                class="form-control"
-                id="discount"
-                name="discount"
-                value=tour.discount
-                min="0"
-            )
-        div(class="form-group")
-            label(for="stock") Số lượng
-            input(
-                type="number"
-                class="form-control"
-                id="stock"
-                name="stock"
-                value=tour.stock
-                min="0"
-            )
-        div(class="form-group")
-            label(for="timeStart") Lịch khởi hành
-            input(
-                type="datetime-local"
-                class="form-control"
-                id="timeStart"
-                name="timeStart"
-                value=tour.formatTimeStart
-                min="0"
-            )
-        
-        div(class="form-group")
-            label(for="information") Thông tin tour
-            textarea(
-                class="form-control textarea-mce"
-                name="information"
-                id="information"
-                textarea-mce 
-            ) !{tour.information}
-        div(class="form-group")
-            label(for="schedule") Lịch trình tour
-            textarea(
-                class="form-control textarea-mce"
-                id="schedule"
-                name="schedule"
-                textarea-mce 
-            ) !{tour.schedule}
-        div(class="form-group form-check form-check-inline")
-            input(
-                type="radio"
-                class="form-check-input"
-                id="statusActive"
-                name="status"
-                value="active"
-                checked = (tour.status === "active" ? true : false)
-            )
-            label(for="statusActive" class="form-check-lable") Hoạt động 
-        div(class="form-group form-check form-check-inline")
-            input(
-                type="radio"
-                class="form-check-input"
-                id="statusInactive"
-                name="status"
-                value="inactive"
-                checked = (tour.status === "inactive" ? true : false)
-            )
-            label(for="statusInactive" class="form-check-lable") Dừng hoạt động 
-        div(class="form-group")
-            button(
-                type="submit"
-                class="btn btn-warning"
-            ) Cập nhật
+            div(class="form-group")
+                label(for="code") Mã tour
+                input(
+                    type="text"
+                    class="form-control"
+                    id="code"
+                    name="code"
+                    value=tour.code
+                    readonly
+                )
+            div(class="form-group")
+                label(for="category_id") Danh mục
+                select(
+                    name="category_id"
+                    id="category_id"
+                    class="form-control"
+                )
+                    option(value="" disabled selected) -- Chọn danh mục --
+                    each category in categories
+                        option(
+                            value=category.id 
+                            selected = (inforCategory[0].id === category.id ? true : false)
+                            ) #{category.title}
+                        
+            div(class="form-group")
+                label(
+                    for="images"
+                    upload-image
+                    ) Chọn nhiều ảnh
+                input(
+                    type="file"
+                    class="form-control-file"
+                    id="images"
+                    name="images"
+                    accept="image/*"
+                    upload-image-imput
+                    multiple
+                )
+
+                div(class= "image-container")
+                    img(
+                        src=tour.image
+                        upload-image-preview
+                        class="image-preview"
+                    )
+                    button(id="button-close-image") X
+            
+            div(class="form-group")
+                label(for="price") Giá
+                input(
+                    type="number"
+                    class="form-control"
+                    id="price"
+                    name="price"
+                    value=tour.price
+                    min="0"
+                )
+            div(class="form-group")
+                label(for="discount") % Giảm giá
+                input(
+                    type="number"
+                    class="form-control"
+                    id="discount"
+                    name="discount"
+                    value=tour.discount
+                    min="0"
+                )
+            div(class="form-group")
+                label(for="stock") Số lượng
+                input(
+                    type="number"
+                    class="form-control"
+                    id="stock"
+                    name="stock"
+                    value=tour.stock
+                    min="0"
+                )
+            div(class="form-group")
+                label(for="timeStart") Lịch khởi hành
+                input(
+                    type="datetime-local"
+                    class="form-control"
+                    id="timeStart"
+                    name="timeStart"
+                    value=tour.formatTimeStart
+                    min="0"
+                )
+            
+            div(class="form-group")
+                label(for="information") Thông tin tour
+                textarea(
+                    class="form-control textarea-mce"
+                    name="information"
+                    id="information"
+                    textarea-mce 
+                ) !{tour.information}
+            div(class="form-group")
+                label(for="schedule") Lịch trình tour
+                textarea(
+                    class="form-control textarea-mce"
+                    id="schedule"
+                    name="schedule"
+                    textarea-mce 
+                ) !{tour.schedule}
+            div(class="form-group form-check form-check-inline")
+                input(
+                    type="radio"
+                    class="form-check-input"
+                    id="statusActive"
+                    name="status"
+                    value="active"
+                    checked = (tour.status === "active" ? true : false)
+                )
+                label(for="statusActive" class="form-check-lable") Hoạt động 
+            div(class="form-group form-check form-check-inline")
+                input(
+                    type="radio"
+                    class="form-check-input"
+                    id="statusInactive"
+                    name="status"
+                    value="inactive"
+                    checked = (tour.status === "inactive" ? true : false)
+                )
+                label(for="statusInactive" class="form-check-lable") Dừng hoạt động 
+            div(class="form-group")
+                button(
+                    type="submit"
+                    class="btn btn-warning"
+                ) Cập nhật
     
     script(src="/admin/js/products.js") 
     //- <!-- Script element sourcing TinyMCE -->

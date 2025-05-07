@@ -77,8 +77,9 @@ block main
             checked=(account.status == "inactive" ? true : false)
         )
         label(for="statusInactive" class="form-check-lable") Dừng hoạt động 
-    div
-        a(
-            href=`${prefixAdmin}/accounts/edit/${account.id}`
-            class="btn btn-warning"
-        ) Chỉnh sửa
+    if(role.permission.includes("account_edit"))
+        div
+            a(
+                href=`${prefixAdmin}/accounts/edit/${account.id}`
+                class="btn btn-warning"
+            ) Chỉnh sửa

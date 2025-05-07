@@ -21,10 +21,11 @@ block main
                 
     if(data.description)
         div(class="mb-4") !{data.description}
-    a(
-        href=`${prefixAdmin}/tours-category/edit/${data.id}`
-        class="btn btn-warning"
-    ) Chỉnh sửa
+    if(role.permission.includes("tour-category_edit"))
+        a(
+            href=`${prefixAdmin}/tours-category/edit/${data.id}`
+            class="btn btn-warning"
+        ) Chỉnh sửa
 
 
     script(src="/admin/js/datas.js") 

@@ -7,7 +7,8 @@ block main
     if(role.description)
         div(class="mb-4") Mô tả : !{role.description}
 
-    a(
-        href=`${prefixAdmin}/roles/edit/${role.id}`
-        class="btn btn-warning"
-    ) Chỉnh sửa
+    if(role.permission.includes("role_edit"))
+        a(
+            href=`${prefixAdmin}/roles/edit/${role.id}`
+            class="btn btn-warning"
+        ) Chỉnh sửa
