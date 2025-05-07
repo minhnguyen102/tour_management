@@ -8,6 +8,7 @@ import { searchRouter } from "./search.router"
 import { roleRouter } from "./role.router"
 import { accountRouter } from "./account.router"
 import { authRouter } from "./auths.router"
+import { myAccountRouter } from "./myAccount.router"
 import { requireAuth } from "../../middleware/admin/auth.middleware"
 
 const RouterAdmin = (app: Express) => {
@@ -26,6 +27,8 @@ const RouterAdmin = (app: Express) => {
     app.use(`${PREFIX_ADMIN}/roles`, requireAuth, roleRouter)
 
     app.use(`${PREFIX_ADMIN}/accounts`, requireAuth, accountRouter)
+
+    app.use(`${PREFIX_ADMIN}/my-account`, requireAuth, myAccountRouter)
 
     app.use(`${PREFIX_ADMIN}/auth`, authRouter)
     
