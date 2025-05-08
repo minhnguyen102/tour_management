@@ -15,4 +15,6 @@ router.post('/login',
     userValidate.loginPost,
     controllers.loginPost)
 
+router.get('/logout', controllers.logout)
+
 export const userRouter = router

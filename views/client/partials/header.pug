@@ -9,13 +9,17 @@ header.header
             .col-9
                 .inner-menu 
                     ul 
-                        li
-                            a(href="/") Trang chủ
-                        li
-                            a(href="/categories") Danh sách
-                        li
-                            a(href="/cart") Giỏ hàng (<span quantity-in-cart>0</span>)
-                        li
-                            a(href="/user/register") Đăng kí
-                        li
-                            a(href="/user/login") Đăng nhập
+                        if(user)
+                            li
+                                a(href="/") Trang chủ
+                            li
+                                a(href="/categories") Danh sách
+                            li
+                                a(href="/cart") Giỏ hàng (<span quantity-in-cart>0</span>)
+                            li
+                                a(href="/user/logout") Đăng xuất
+                        else 
+                            li
+                                a(href="/user/register") Đăng kí
+                            li
+                                a(href="/user/login") Đăng nhập

@@ -1,16 +1,17 @@
 import { Request, Response } from "express"
 import Tour from "../../model/tour.model";
 
-// [GET] /tours
+// [GET] /cart
 export const index = (req: Request, res: Response) => {
     res.render("client/pages/cart/index.pug",{
         pageTitle : "Trang giỏ hàng",
     })
 }
 
-// [GET] /tours/list-tour
+// [POST] /tours/list-tour
 export const listTour = async (req: Request, res: Response) => {
     const tours = req.body;
+    console.log(req.body)
     for (const tour of tours) {
         const inforTour = await Tour.findOne({
             raw : true,
@@ -25,6 +26,8 @@ export const listTour = async (req: Request, res: Response) => {
         tour["newPrice"] = inforTour["price"] * (1 - inforTour["discount"] / 100)
         tour["totalPrice"] = tour["newPrice"] * tour.quantity;
     }
+    
+    // console.log(tours);
 
     res.json({
         tours : tours

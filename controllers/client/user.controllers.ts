@@ -1,7 +1,8 @@
 import { Request, Response } from "express"
-import User from "../../model/user..model"
+import User from "../../model/user.model"
 import md5 from "md5"
 import { generateRandomTokenAccount } from "../../helpers/generate"
+import Cart from "../../model/cart.model"
 
 //[GET] /user/register
 export const register = (req: Request, res: Response) => {
@@ -11,6 +12,7 @@ export const register = (req: Request, res: Response) => {
 }
 
 //[POST] /user/register
+// Đăng kí đồng thời phải tạo luôn cho họ 1 cartID
 export const registerPost = async (req: Request, res: Response) => {
     const exitEmail = await User.findOne({
         raw : true,
@@ -33,8 +35,15 @@ export const registerPost = async (req: Request, res: Response) => {
         tokenUser : generateRandomTokenAccount(20)
     }
     const user = await User.create(objectUser);
+
+    const objectCart = {
+        user_id : user["id"]
+    }
+
+    const cart = await Cart.create(objectCart);
+
     req.flash("success", "Tạo mới tài khoản thành công")
-    res.send("Chuyển hướng trang đăng nhập");
+    res.redirect("/user/login")
 }
 
 //[GET] /user/login
@@ -70,4 +79,11 @@ export const loginPost = async (req: Request, res: Response) => {
 
     res.cookie("tokenUser", user["tokenUser"])
     res.redirect("/categories")
+}
+
+//[GET] /user/logout
+export const logout = (req: Request, res: Response) => {
+    res.clearCookie("tokenUser");
+    res.clearCookie("cartID");
+    res.redirect('/user/login')
 }
