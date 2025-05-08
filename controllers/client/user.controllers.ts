@@ -36,3 +36,38 @@ export const registerPost = async (req: Request, res: Response) => {
     req.flash("success", "Tạo mới tài khoản thành công")
     res.send("Chuyển hướng trang đăng nhập");
 }
+
+//[GET] /user/login
+export const login = (req: Request, res: Response) => {
+    res.render("client/pages/user/login.pug",{
+        pageTitle : "Trang đăng nhập",
+    })
+}
+
+//[POST] /user/login
+export const loginPost = async (req: Request, res: Response) => {
+    const email = req.body.email;
+    const password = req.body.password;
+    const user = await User.findOne({
+        raw : true,
+        where : {
+            email : email,
+            deleted : false
+        }
+    })
+
+    if(!user){
+        req.flash("error", "Email không tồn tại!");
+        res.redirect("/user/login")
+        return;
+    }
+
+    if(user["password"] != md5(password)){
+        req.flash("error", "Sai mật khẩu!");
+        res.redirect("/user/login")
+        return;
+    }
+
+    res.cookie("tokenUser", user["tokenUser"])
+    res.redirect("/categories")
+}

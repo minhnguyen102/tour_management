@@ -9,4 +9,10 @@ router.post('/register',
     userValidate.registerPost,
     controllers.registerPost)
 
+router.get('/login', controllers.login)
+
+router.post('/login',
+    userValidate.loginPost,
+    controllers.loginPost)
+
 export const userRouter = router
