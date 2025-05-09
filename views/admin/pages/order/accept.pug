@@ -1,6 +1,9 @@
 extends ../../layouts/default
 include ../../mixins/alert.pug
 include ../../mixins/formHidden.pug
+include ../../mixins/pagination.pug
+include ../../mixins/search.pug
+include ../../mixins/sort.pug
 
 block main
     +alert-success(4000) 
@@ -11,30 +14,43 @@ block main
         .col-12 
             h1 #{pageTitle}
     
-    .row 
-        .col-12 
-            table(class="table table-bordered")
-                thead 
-                    tr 
-                        th STT
-                        th Mã đơn hàng 
-                        th Tên khách hàng
-                        th Số điện thoại
-                        th Chi tiết
-                        th Trạng thái
 
-                tbody
-                    each item, index in ordersAccept
+    .card.mb-3 
+        .card-header Sắp xếp và tìm kiếm 
+        .card-body 
+            .row
+                .col-3
+                    +sortOrder()
+                .col-3
+                .col-6
+                    +search(keyword)
+    br
+    .card.mb-3 
+        .card-header Danh sách tour đã duyệt
+        .row 
+            .col-12 
+                table(class="table table-bordered")
+                    thead 
                         tr 
-                            td #{index + 1}
-                            td #{item.code}
-                            td #{item.fullName}
-                            td #{item.phone}
-                            td 
-                                a(href=`${prefixAdmin}/orders/detail/${item.id}`) Chi tiết
-                            td 
-                                span(
-                                    class="btn btn-success"    
-                                ) Đã duyệt
-                        
+                            th STT
+                            th Mã đơn hàng 
+                            th Tên khách hàng
+                            th Số điện thoại
+                            th Chi tiết
+                            th Trạng thái
+
+                    tbody
+                        each item, index in ordersAccept
+                            tr 
+                                td #{index + 1}
+                                td #{item.code}
+                                td #{item.fullName}
+                                td #{item.phone}
+                                td 
+                                    a(href=`${prefixAdmin}/orders/detail/${item.id}`) Chi tiết
+                                td 
+                                    span(
+                                        class="btn btn-success"    
+                                    ) Đã duyệt
+    +pagination(objectPagination)
     script(src="/admin/js/order.js") 

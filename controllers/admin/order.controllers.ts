@@ -164,15 +164,62 @@ export const acceptPost = async (req: Request, res: Response) => {
 
 // [GET] /admin/orders/accept
 export const accept = async (req: Request, res: Response) => {
+    let where: any = {
+        accept : true,
+        deleted : false
+    }
+
+    // Pagination
+    const totalOrder = await Order.count({
+        where : where
+    })
+    console.log(totalOrder)
+    const objectPagination = PaginationHelper(
+        {
+            limitItem : 6,
+            currentPage : 1
+        },
+        req.query,
+        totalOrder
+    )
+    // End Pagination
+
+    // Search 
+        const objectSearch = SearchHelper(req.query);
+        if(objectSearch["keywordRegex"]){
+            // console.log(objectSearch["regex"])
+            where = {
+                [Op.or]: [
+                    { code: { [Op.regexp]: objectSearch["slugRegex"] } },
+                    { fullname: { [Op.regexp]: objectSearch["keywordRegex"] } }
+                ]
+            }
+        }
+    // End Search 
+
+    // Sort
+    let order=[];
+    const sortKey = req.query.sortKey
+    const sortValue = req.query.sortValue;
+    if(sortKey && sortValue){
+        const objectOrder = [sortKey, sortValue];
+        order.push(objectOrder);
+    }else{
+        order.push(["code", "asc"])
+    }
+    // End Sort
+
     const ordersAccept = await Order.findAll({
         raw : true,
-        where : {
-            accept : true,
-            deleted : false
-        }
+        limit : objectPagination["limitItem"],
+        offset : objectPagination["skip"],
+        order : order,
+        where : where
     })
     res.render("admin/pages/order/accept.pug",{
         pageTitle : "Đơn hàng đã xác nhận",
-        ordersAccept : ordersAccept
+        ordersAccept : ordersAccept,
+        objectPagination : objectPagination,
+        keyword : objectSearch.keyword,
     })
 }

@@ -1,5 +1,5 @@
 extends ../../layouts/default
-//- include ../../mixins/moment.pug
+include ../../mixins/moment.pug
 include ../../mixins/alert.pug
 
 block main
@@ -32,8 +32,8 @@ block main
                                         b #{order.note}
                                 tr 
                                     td Thời gian đặt hàng
-                                    td Chưa xử lí
-                                        //- +moment(order.createdAt)
+                                    td 
+                                        +moment(order.createdAt)
                                         
 
                 .row 
