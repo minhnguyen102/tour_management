@@ -1,0 +1,72 @@
+extends ../../layouts/default
+//- include ../../mixins/moment.pug
+include ../../mixins/alert.pug
+
+block main
+    +alert-success(5000)
+    +alert-error(5000)
+
+    .section-products-featured.my-5
+        .container  
+            .row 
+                .col-12 
+                    h1 #{pageTitle}
+            
+            if(order)
+                .row 
+                    .col-12 
+                        h4(class="mb-2") Thông tin cá nhân
+                        table(class="table table-bordered")
+                            tbody 
+                                tr 
+                                    td Họ và tên
+                                    td 
+                                        b #{order.fullName}
+                                tr 
+                                    td Số điện thoại
+                                    td 
+                                        b #{order.phone}
+                                tr 
+                                    td Ghi chú
+                                    td 
+                                        b #{order.note}
+                                tr 
+                                    td Thời gian đặt hàng
+                                    td Chưa xử lí
+                                        //- +moment(order.createdAt)
+                                        
+
+                .row 
+                    .col-12 
+                        h4(class="mb-2") Thông tin tour
+                        table(class="table table-bordered")
+                            thead 
+                                tr 
+                                    th STT
+                                    th Ảnh
+                                    th Tiêu đề
+                                    th Giá
+                                    th Số lượng
+                                    th Tổng tiền
+        
+                            tbody
+                                if(order.ordersItem.length > 0)
+                                    each item, index in order.ordersItem
+                                        tr 
+                                            td #{index + 1}
+                                            td 
+                                                img(src=item.infoTour.image, alt=item.infoTour.title, width="80px")
+                                            td #{item.infoTour.title}
+                                            td #{item.priceNew}đ
+                                            td #{item.quantity}                            
+                                            td #{item.totalPrice}đ
+
+                        if(order.ordersItem.length > 0)
+                            h3(class="text-right") Tổng đơn hàng : #{order.totalPrice}$
+                            
+
+                                    
+
+
+        
+                            

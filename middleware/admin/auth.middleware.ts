@@ -29,7 +29,7 @@ export const requireAuth = async (req: Request, res: Response, next: NextFunctio
             // console.log(role["permission"].includes("tour-category_view"))
             res.locals.role = role;
             res.locals.account = account;
-            console.log(account)
+            // console.log(account)
             next(); 
         }else{
             res.clearCookie("token")
