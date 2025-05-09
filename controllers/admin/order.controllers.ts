@@ -3,15 +3,36 @@ import Order from "../../model/order.model"
 import OrderItem from "../../model/order-item.model";
 import Tour from "../../model/tour.model";
 import { systemConfig } from "../../config/system";
+import { PaginationHelper } from "../../helpers/pagination"
 
 // [GET] /admin/orders
 export const index = async (req: Request, res: Response) => {
+    let where: any = {
+        deleted : false,
+        accept : false
+    }
+
+    // Pagination
+    const totalOrder = await Order.count({
+        where : where
+    })
+    const objectPagination = PaginationHelper(
+        {
+            limitItem : 6,
+            currentPage : 1
+        },
+        req.query,
+        totalOrder
+    )
+    console.log(objectPagination)
+    // End Pagination
+
+
     const orders = await Order.findAll({
         raw : true,
-        where : {
-            deleted : false,
-            accept : false
-        }
+        limit : objectPagination["limitItem"],
+        offset : objectPagination["skip"],
+        where : where
     })
     // lấy tất cả orders_item có orderID = orderID => tính tổng tiền của order đó
     for (const order of orders) {
@@ -33,10 +54,12 @@ export const index = async (req: Request, res: Response) => {
             deleted : false
         }
     })
+
     res.render("admin/pages/order/index.pug",{
         pageTitle : "Trang quản lí đơn hàng",
         orders : orders,
-        countOrderAc : countOrderAc
+        countOrderAc : countOrderAc,
+        objectPagination : objectPagination
     })
 }
 

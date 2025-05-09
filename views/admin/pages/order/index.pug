@@ -1,16 +1,16 @@
 extends ../../layouts/default
 include ../../mixins/alert.pug
 include ../../mixins/formHidden.pug
+include ../../mixins/pagination.pug
 
 block main
     +alert-success(4000) 
     +alert-error(4000) 
 
-    .container.my-3 
     .row 
         .col-12 
             h1 #{pageTitle}
-
+    
     .row 
         .col-12 
             a(
@@ -18,36 +18,39 @@ block main
                 class="btn btn-primary"
             ) Đơn hàng đã xác nhận (#{countOrderAc})
     br
+    .card.mb-3 
+        .card-header Danh sách tour
+        .row 
+            .col-12 
+                table(class="table table-bordered")
+                    thead 
+                        tr 
+                            th STT
+                            th Mã đơn hàng
+                            th Tên khách hàng
+                            th Số điện thoại
+                            th Tổng tiền
+                            th Chi tiết
+                            th Hành động
+                    tbody
+                        if(orders.length > 0)
+                            each item, index in orders
+                                tr 
+                                    td #{index + 1}
+                                    td #{item.code}
+                                    td #{item.fullName}
+                                    td #{item.phone}
+                                    td #{item.totalPrice.toLocaleString()}đ
+                                    td 
+                                        a(href=`${prefixAdmin}/orders/detail/${item.id}`) Chi tiết
+                                    td 
+                                        a(
+                                            class="btn btn-success"    
+                                            button-access
+                                            id-item=item.id
+                                        ) Duyệt
 
-    .row 
-        .col-12 
-            table(class="table table-bordered")
-                thead 
-                    tr 
-                        th STT
-                        th Mã đơn hàng
-                        th Tên khách hàng
-                        th Số điện thoại
-                        th Tổng tiền
-                        th Chi tiết
-                        th Hành động
-                tbody
-                    if(orders.length > 0)
-                        each item, index in orders
-                            tr 
-                                td #{index + 1}
-                                td #{item.code}
-                                td #{item.fullName}
-                                td #{item.phone}
-                                td #{item.totalPrice.toLocaleString()}đ
-                                td 
-                                    a(href=`${prefixAdmin}/orders/detail/${item.id}`) Chi tiết
-                                td 
-                                    a(
-                                        class="btn btn-success"    
-                                        button-access
-                                        id-item=item.id
-                                    ) Duyệt
+    +pagination(objectPagination)
                 
 
     +formHiddenAccept("form-accept", `${prefixAdmin}/orders/accept`)

@@ -231,3 +231,7 @@
   }
   
 /* End box search */
+
+.table-bordered{
+    margin-bottom: 0;
+}
