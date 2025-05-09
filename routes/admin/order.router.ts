@@ -6,5 +6,9 @@ router.get('/', controllers.index)
 
 router.get('/detail/:orderId', controllers.detail)
 
+router.post('/accept', controllers.acceptPost)
+
+router.get('/accept', controllers.accept)
+
 
 export const orderRouter = router

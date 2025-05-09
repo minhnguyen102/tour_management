@@ -30,6 +30,10 @@ const Order = sequelize.define("Order", {
         type : DataTypes.BOOLEAN,
         defaultValue : false
     },
+    accept : {
+        type : DataTypes.BOOLEAN,
+        defaultValue : false
+    },
     deletedAt : {
         type : DataTypes.DATE
     }

@@ -1,0 +1,40 @@
+extends ../../layouts/default
+include ../../mixins/alert.pug
+include ../../mixins/formHidden.pug
+
+block main
+    +alert-success(4000) 
+    +alert-error(4000) 
+
+    .container.my-3 
+    .row 
+        .col-12 
+            h1 #{pageTitle}
+    
+    .row 
+        .col-12 
+            table(class="table table-bordered")
+                thead 
+                    tr 
+                        th STT
+                        th Mã đơn hàng 
+                        th Tên khách hàng
+                        th Số điện thoại
+                        th Chi tiết
+                        th Trạng thái
+
+                tbody
+                    each item, index in ordersAccept
+                        tr 
+                            td #{index + 1}
+                            td #{item.code}
+                            td #{item.fullName}
+                            td #{item.phone}
+                            td 
+                                a(href=`${prefixAdmin}/orders/detail/${item.id}`) Chi tiết
+                            td 
+                                span(
+                                    class="btn btn-success"    
+                                ) Đã duyệt
+                        
+    script(src="/admin/js/order.js") 

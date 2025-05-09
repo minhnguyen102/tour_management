@@ -57,12 +57,12 @@ block main
                                             td 
                                                 img(src=item.infoTour.image, alt=item.infoTour.title, width="80px")
                                             td #{item.infoTour.title}
-                                            td #{item.priceNew}đ
+                                            td #{item.priceNew.toLocaleString()}đ
                                             td #{item.quantity}                            
-                                            td #{item.totalPrice}đ
+                                            td #{item.totalPrice.toLocaleString()}đ
 
                         if(order.ordersItem.length > 0)
-                            h3(class="text-right") Tổng đơn hàng : #{order.totalPrice}$
+                            h3(class="text-right") Tổng đơn hàng : #{order.totalPrice.toLocaleString()}đ
                             
 
                                     

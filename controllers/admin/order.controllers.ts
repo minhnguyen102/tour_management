@@ -2,13 +2,15 @@ import { Request, Response } from "express"
 import Order from "../../model/order.model"
 import OrderItem from "../../model/order-item.model";
 import Tour from "../../model/tour.model";
+import { systemConfig } from "../../config/system";
 
 // [GET] /admin/orders
 export const index = async (req: Request, res: Response) => {
     const orders = await Order.findAll({
         raw : true,
         where : {
-            deleted : false
+            deleted : false,
+            accept : false
         }
     })
     // lấy tất cả orders_item có orderID = orderID => tính tổng tiền của order đó
@@ -24,9 +26,17 @@ export const index = async (req: Request, res: Response) => {
         order["totalPrice"] = totalPrice;
     }
     
+    // Đếm số đơn hàng đã được duyệt
+    const countOrderAc = await Order.count({
+        where : {
+            accept : true,
+            deleted : false
+        }
+    })
     res.render("admin/pages/order/index.pug",{
         pageTitle : "Trang quản lí đơn hàng",
-        orders : orders
+        orders : orders,
+        countOrderAc : countOrderAc
     })
 }
 
@@ -81,5 +91,35 @@ export const detail = async (req: Request, res: Response) => {
         pageTitle : "Trang chi tiết đơn hàng",
         order : order,
         ordersItem : ordersItem
+    })
+}
+
+// [POST] /admin/orders/accept
+export const acceptPost = async (req: Request, res: Response) => {
+    const orderId = req.body.orderId;
+    await Order.update({
+        accept : true
+    },{
+        where :{
+            id : orderId,
+            deleted : false,
+            accept : false
+        }
+    })
+    res.redirect(`${systemConfig.prefixAdmin}/orders`)
+}
+
+// [GET] /admin/orders/accept
+export const accept = async (req: Request, res: Response) => {
+    const ordersAccept = await Order.findAll({
+        raw : true,
+        where : {
+            accept : true,
+            deleted : false
+        }
+    })
+    res.render("admin/pages/order/accept.pug",{
+        pageTitle : "Đơn hàng đã xác nhận",
+        ordersAccept : ordersAccept
     })
 }
