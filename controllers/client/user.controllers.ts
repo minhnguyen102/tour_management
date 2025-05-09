@@ -85,5 +85,5 @@ export const loginPost = async (req: Request, res: Response) => {
 export const logout = (req: Request, res: Response) => {
     res.clearCookie("tokenUser");
     res.clearCookie("cartID");
-    res.redirect('/user/login')
+    res.redirect(`/user/login`)
 }

@@ -79,3 +79,28 @@ if(formAddToCart){
     })
 }
 // End Add tour to cart
+
+// Logout
+// fetch('/api/logout')
+//   .then(res => {
+//     if (res.ok) {
+//       localStorage.removeItem('cart');  // Hoặc localStorage.clear() nếu cần
+//       window.location.href = '/login';  // Điều hướng người dùng về trang đăng nhập
+//     }
+// });
+
+// End Logout 
+
+// const logout = document.querySelector("[logout]");
+// if(logout){
+//     logout.addEventListener("click", (e) => {
+//         e.preventDefault();
+//         fetch('/user/logout')
+//             .then(res => {
+//                 if (res.ok) {
+//                     localStorage.removeItem('cart');  // Hoặc localStorage.clear() nếu cần
+//                     window.location.href = '/user/login';  // Điều hướng người dùng về trang đăng nhập
+//                 }
+//             });
+//     })
+// }

@@ -11,7 +11,7 @@ export const inforUser = async (req: Request, res: Response, next: NextFunction)
                 deleted : false
             }
         })
-        // console.log(user);
+        console.log(user);
 
         const cart = await Cart.findOne({
             raw : true,
@@ -19,11 +19,17 @@ export const inforUser = async (req: Request, res: Response, next: NextFunction)
                 user_id : user["id"]
             }
         })
-        // console.log(cart)
-
+        cart["products"] = JSON.parse(cart["products"])
+        // if(cart["products"].length > 0)
+        //     console.log(cart["products"].length)
+        console.log(cart);
         if(user){
             res.locals.user = user;
             res.cookie("cartID", cart["id"]);
+            res.locals.cart = cart;
+            if(cart["products"]){
+                res.locals.totalCart = cart["products"].length
+            }
         }else{
             // Nếu tồn tại nhưng lại bị f12 lên chỉnh sửa
         }
