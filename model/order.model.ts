@@ -8,14 +8,6 @@ const Order = sequelize.define("Order", {
         autoIncrement: true,
         primaryKey: true
     },
-    // cart_id : {
-    //     type : DataTypes.INTEGER,
-    //     allowNull : false,
-    //     references : {
-    //         model : "carts",
-    //         key : "id"
-    //     }
-    // },
     code : {
         type : DataTypes.STRING(20),
         allowNull : false

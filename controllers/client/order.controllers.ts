@@ -5,7 +5,6 @@ import Tour from "../../model/tour.model";
 import OrderItem from "../../model/order-item.model";
 import { or, QueryTypes } from "sequelize";
 import sequelize from "../../config/database";
-import { Json } from "sequelize/types/utils";
 
 // [POST] /order
 export const order = async (req: Request, res: Response) => {
