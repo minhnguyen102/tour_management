@@ -4,7 +4,8 @@ import OrderItem from "../../model/order-item.model";
 import Tour from "../../model/tour.model";
 import { systemConfig } from "../../config/system";
 import { PaginationHelper } from "../../helpers/pagination"
-
+import { Op, QueryTypes } from "sequelize"
+import { SearchHelper } from "../../helpers/search"
 // [GET] /admin/orders
 export const index = async (req: Request, res: Response) => {
     let where: any = {
@@ -26,6 +27,19 @@ export const index = async (req: Request, res: Response) => {
     )
     console.log(objectPagination)
     // End Pagination
+
+    // Search 
+        const objectSearch = SearchHelper(req.query);
+        if(objectSearch["keywordRegex"]){
+            // console.log(objectSearch["regex"])
+            where = {
+                [Op.or]: [
+                    { code: { [Op.regexp]: objectSearch["slugRegex"] } },
+                    { fullname: { [Op.regexp]: objectSearch["keywordRegex"] } }
+                ]
+            }
+        }
+        // End Search 
 
 
     const orders = await Order.findAll({
@@ -59,7 +73,8 @@ export const index = async (req: Request, res: Response) => {
         pageTitle : "Trang quản lí đơn hàng",
         orders : orders,
         countOrderAc : countOrderAc,
-        objectPagination : objectPagination
+        objectPagination : objectPagination,
+        keyword : objectSearch.keyword,
     })
 }
 

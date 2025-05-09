@@ -2,6 +2,7 @@ extends ../../layouts/default
 include ../../mixins/alert.pug
 include ../../mixins/formHidden.pug
 include ../../mixins/pagination.pug
+include ../../mixins/search.pug
 
 block main
     +alert-success(4000) 
@@ -17,6 +18,15 @@ block main
                 href=`${prefixAdmin}/orders/accept`
                 class="btn btn-primary"
             ) Đơn hàng đã xác nhận (#{countOrderAc})
+    br
+    .card.mb-3 
+        .card-header Bộ lọc và tìm kiếm 
+        .card-body 
+            .row
+                .col-6
+                    //- +filterStatus(filterStatus)
+                .col-6
+                    +search(keyword)
     br
     .card.mb-3 
         .card-header Danh sách tour
