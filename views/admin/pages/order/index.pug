@@ -3,6 +3,7 @@ include ../../mixins/alert.pug
 include ../../mixins/formHidden.pug
 include ../../mixins/pagination.pug
 include ../../mixins/search.pug
+include ../../mixins/sort.pug
 
 block main
     +alert-success(4000) 
@@ -20,11 +21,12 @@ block main
             ) Đơn hàng đã xác nhận (#{countOrderAc})
     br
     .card.mb-3 
-        .card-header Bộ lọc và tìm kiếm 
+        .card-header Sắp xếp và tìm kiếm 
         .card-body 
             .row
-                .col-6
-                    //- +filterStatus(filterStatus)
+                .col-3
+                    +sortOrder()
+                .col-3
                 .col-6
                     +search(keyword)
     br

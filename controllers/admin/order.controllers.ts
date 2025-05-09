@@ -25,7 +25,6 @@ export const index = async (req: Request, res: Response) => {
         req.query,
         totalOrder
     )
-    console.log(objectPagination)
     // End Pagination
 
     // Search 
@@ -39,15 +38,30 @@ export const index = async (req: Request, res: Response) => {
                 ]
             }
         }
-        // End Search 
+    // End Search 
+
+    // Sort
+    let order=[];
+    const sortKey = req.query.sortKey
+    const sortValue = req.query.sortValue;
+    if(sortKey && sortValue){
+        const objectOrder = [sortKey, sortValue];
+        order.push(objectOrder);
+    }else{
+        order.push(["code", "asc"])
+    }
+    console.log(order)
+    // End Sort
 
 
     const orders = await Order.findAll({
         raw : true,
         limit : objectPagination["limitItem"],
         offset : objectPagination["skip"],
+        order : order,
         where : where
     })
+
     // lấy tất cả orders_item có orderID = orderID => tính tổng tiền của order đó
     for (const order of orders) {
         const id = order["id"];
@@ -68,6 +82,7 @@ export const index = async (req: Request, res: Response) => {
             deleted : false
         }
     })
+
 
     res.render("admin/pages/order/index.pug",{
         pageTitle : "Trang quản lí đơn hàng",

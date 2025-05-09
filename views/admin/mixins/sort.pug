@@ -31,3 +31,18 @@ mixin sortAccount()
             class="btn btn-danger mt-2"
             sort-clear
         ) Xóa
+
+mixin sortOrder()
+    div(sort)
+        select(
+            class="form-control"
+            name="sort"
+            sort-select
+        )
+            option(value="code-asc" selected=true ) Mã tăng dần
+            option(value="code-desc") Mã giảm dần
+
+        button(
+            class="btn btn-danger mt-2"
+            sort-clear
+        ) Xóa
